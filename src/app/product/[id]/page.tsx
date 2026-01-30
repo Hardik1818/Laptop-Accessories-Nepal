@@ -7,9 +7,10 @@ import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/context/CartContext";
-import { ShoppingCart, Truck, ShieldCheck, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { ShoppingCart, Truck, ShieldCheck, ArrowLeft, ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 export default function ProductDetailPage() {
     const params = useParams();
@@ -200,13 +201,20 @@ export default function ProductDetailPage() {
                         </div>
 
                         {/* Actions */}
-                        <div className="pt-4 md:pt-8 space-y-4">
+                        <div className="pt-4 md:pt-8 space-y-4 sticky bottom-0 bg-slate-950/80 backdrop-blur-lg pb-6 -mx-4 px-4 md:relative md:bg-transparent md:backdrop-blur-none md:pb-0 md:mx-0 md:px-0 z-50">
                             <div className="flex gap-4">
                                 <Button
                                     size="lg"
                                     className="flex-1 h-14 text-base md:text-lg rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-[0_0_30px_rgba(37,99,235,0.3)] hover:shadow-[0_0_50px_rgba(37,99,235,0.5)] transition-all duration-300 font-bold"
                                     disabled={isOutOfStock}
-                                    onClick={() => addItem(product)}
+                                    onClick={() => {
+                                        addItem(product);
+                                        toast.success(`${product.name} added to cart!`, {
+                                            icon: <CheckCircle2 className="h-4 w-4 text-green-500" />,
+                                            description: "You can view it in your shopping cart.",
+                                            duration: 3000,
+                                        });
+                                    }}
                                 >
                                     <ShoppingCart className="mr-2 h-5 w-5" />
                                     {isOutOfStock ? "Out of Stock" : "Add to Cart"}

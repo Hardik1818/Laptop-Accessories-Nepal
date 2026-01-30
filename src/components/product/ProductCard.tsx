@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, CheckCircle2 } from "lucide-react";
 import { Product } from "@/types";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/context/CartContext";
+import { toast } from "sonner";
 
 interface ProductCardProps {
     product: Product;
@@ -20,6 +21,10 @@ export function ProductCard({ product }: ProductCardProps) {
     const handleAddToCart = () => {
         if (!isOutOfStock) {
             addItem(product);
+            toast.success(`${product.name} added!`, {
+                icon: <CheckCircle2 className="h-4 w-4 text-green-500" />,
+                duration: 2000,
+            });
         }
     };
 

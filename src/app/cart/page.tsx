@@ -5,13 +5,14 @@ import { useSettings } from "@/context/SettingsContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trash2, Plus, Minus, Upload, ShoppingCart, ShieldCheck, Truck, QrCode } from "lucide-react";
+import { Trash2, Plus, Minus, Upload, ShoppingCart, ShieldCheck, Truck, QrCode, CheckCircle2, PackageCheck } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { sendOrderNotificationEmail } from "@/app/actions/email";
+import { toast } from "sonner";
 
 export default function CartPage() {
     const { items, updateQuantity, removeItem, cartTotal, clearCart } = useCart();
@@ -106,12 +107,18 @@ export default function CartPage() {
 
             // Success
             clearCart();
-            alert("Order placed successfully! We will contact you shortly.");
+            toast.success("Order placed successfully!", {
+                icon: <PackageCheck className="h-4 w-4 text-green-500" />,
+                description: "We will contact you shortly to confirm your delivery.",
+                duration: 5000,
+            });
             router.push("/");
 
         } catch (error: any) {
             console.error(error);
-            alert("Failed to place order: " + error.message);
+            toast.error("Failed to place order", {
+                description: error.message || "Please try again later.",
+            });
         } finally {
             setIsSubmitting(false);
         }
@@ -276,7 +283,7 @@ export default function CartPage() {
                                         <span>NPR {cartTotal.toLocaleString()}</span>
                                     </div>
                                 </CardContent>
-                                <CardFooter className="pt-2 pb-6">
+                                <CardFooter className="pt-2 pb-6 sticky bottom-0 bg-slate-900 md:relative md:bg-transparent z-40 -mx-6 px-6 md:mx-0 md:px-0">
                                     {step === "cart" ? (
                                         <Button className="w-full h-12 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-lg shadow-blue-900/20" onClick={() => setStep("checkout")}>
                                             Proceed to Checkout
@@ -287,7 +294,7 @@ export default function CartPage() {
                                             form="checkout-form"
                                             disabled={isSubmitting}
                                         >
-                                            {isSubmitting ? "Processing..." : "Confirm OrdeR"}
+                                            {isSubmitting ? "Processing..." : "Confirm Order"}
                                         </Button>
                                     )}
                                 </CardFooter>

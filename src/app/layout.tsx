@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { SettingsProvider } from "@/context/SettingsContext";
 import { ClientLayout } from "@/components/layout/ClientLayout";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,6 +29,7 @@ export default function RootLayout({
             <ClientLayout>
               {children}
             </ClientLayout>
+            <Toaster position="bottom-right" theme="dark" richColors />
           </CartProvider>
         </SettingsProvider>
       </body>
