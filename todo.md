@@ -4,34 +4,34 @@
 ---
 
 ## 1. Setup & Config
-- [ ] **Initialize Git**
-  - [ ] Run `git init`
-  - [ ] Create `.gitignore` (node_modules, .env, etc.)
-  - [ ] Initial commit
-- [ ] **Setup Next.js Project**
-  - [ ] Run `npx create-next-app@latest` with TypeScript, Tailwind, ESLint
-  - [ ] Clean up default boilerplate code
-- [ ] **Install Core Dependencies**
-  - [ ] `lucide-react` (Icons)
-  - [ ] `framer-motion` (Animations - standard for vibe coding)
-  - [ ] `clsx`, `tailwind-merge` (Utility handling)
-  - [ ] `@supabase/supabase-js` (Database)
-- [ ] **Configure Design System**
-  - [ ] Setup `globals.css` with CSS variables for colors (from Design Doc)
-  - [ ] Update `tailwind.config.ts` to use those variables
-  - [ ] Configure Fonts (Inter/Outfit)
-- [ ] **Environment Setup**
-  - [ ] Create `.env.local`
-  - [ ] Add Supabase keys (`SUPABASE_URL`, `SUPABASE_ANON_KEY`)
+- [x] **Initialize Git**
+  - [x] Run `git init`
+  - [x] Create `.gitignore` (node_modules, .env, etc.)
+  - [x] Initial commit
+- [x] **Setup Next.js Project**
+  - [x] Run `npx create-next-app@latest` with TypeScript, Tailwind, ESLint
+  - [x] Clean up default boilerplate code
+- [x] **Install Core Dependencies**
+  - [x] `lucide-react` (Icons)
+  - [x] `framer-motion` (Animations - standard for vibe coding)
+  - [x] `clsx`, `tailwind-merge` (Utility handling)
+  - [x] `@supabase/supabase-js` (Database)
+- [x] **Configure Design System**
+  - [x] Setup `globals.css` with CSS variables for colors (from Design Doc)
+  - [x] Update `tailwind.config.ts` to use those variables
+  - [x] Configure Fonts (Inter/Outfit)
+- [x] **Environment Setup**
+  - [x] Create `.env.local`
+  - [x] Add Supabase keys (`SUPABASE_URL`, `SUPABASE_ANON_KEY`)
 
 ---
 
 ## 2. Database & Backend (Supabase)
-- [ ] **Database Schema**
-  - [ ] Create `products` table (id, name, price, description, images, category, stock, created_at)
-  - [ ] Create `orders` table (id, customer_name, phone, address, total, status, payment_method, proof_url, created_at)
-  - [ ] Create `order_items` table (link orders to products)
-  - [ ] Create `store_settings` table (policies, contact info)
+- [x] **Database Schema**
+  - [x] Create `products` table (id, name, price, description, images, category, stock, created_at)
+  - [x] Create `orders` table (id, customer_name, phone, address, total, status, payment_method, proof_url, created_at)
+  - [x] Create `order_items` table (link orders to products)
+  - [x] Create `store_settings` table (policies, contact info)
 - [ ] **Storage Buckets**
   - [ ] Create `products` bucket (Public)
   - [ ] Create `payment_proofs` bucket (Private/Authenticated)
@@ -44,27 +44,27 @@
 ---
 
 ## 3. Core Components (Frontend)
-- [ ] **UI Base Components (Shadcn-like or Custom)**
-  - [ ] Button
-  - [ ] Input / Textarea
-  - [ ] Card
-  - [ ] Badge
-  - [ ] Modal / Dialog
-- [ ] **Layout Components**
-  - [ ] `Navbar` (Logo, Search, Cart, Links)
-  - [ ] `Footer` (Copyright, Links)
-  - [ ] `Container` (Max-width wrapper)
-- [ ] **Product Components**
-  - [ ] `ProductCard` (Grid item)
-  - [ ] `ProductImageGallery`
-  - [ ] `AddToCartButton`
+- [x] **UI Base Components (Shadcn-like or Custom)**
+  - [x] Button
+  - [x] Input / Textarea
+  - [x] Card
+  - [x] Badge
+  - [ ] Modal / Dialog (Will implement when needed)
+- [x] **Layout Components**
+  - [x] `Navbar` (Logo, Search, Cart, Links)
+  - [x] `Footer` (Copyright, Links)
+  - [x] `Container` (Max-width wrapper - using utility classes instead)
+- [x] **Product Components**
+  - [x] `ProductCard` (Grid item)
+  - [ ] `ProductImageGallery` (For detail page)
+  - [ ] `AddToCartButton` (Logic pending cart context)
 
 ---
 
 ## 4. Features: Customer View
-- [ ] **Home Page**
-  - [ ] Hero Section (Welcome + Vibe)
-  - [ ] Featured Products / Categories
+- [x] **Home Page**
+  - [x] Hero Section (Welcome + Vibe)
+  - [x] Featured Products / Categories
 - [ ] **Product Listing**
   - [ ] Category Filter
   - [ ] Search Functionality
@@ -72,22 +72,22 @@
 - [ ] **Product Detail Page**
   - [ ] Full info display
   - [ ] Related products
-- [ ] **Cart Functionality**
-  - [ ] State management (Context or Zustand)
-  - [ ] Add/Remove items
-  - [ ] Calculate total
-  - [ ] Slide-over or discrete Cart page
-- [ ] **Checkout Flow**
-  - [ ] User Details Form (Name, Phone, Address)
-  - [ ] Payment Method Selection (QR vs COD)
-  - [ ] **QR Logic:**
-    - [ ] Display Static QR Image
-    - [ ] File Input for Payment Proof
-    - [ ] Upload to Supabase Storage
-  - [ ] **Order Submission:**
-    - [ ] Create Order record
-    - [ ] Clear Cart
-    - [ ] Redirect to Success Page
+- [x] **Cart Functionality**
+  - [x] State management (Context or Zustand)
+  - [x] Add/Remove items
+  - [x] Calculate total
+  - [x] Slide-over or discrete Cart page
+- [x] **Checkout Flow**
+  - [x] User Details Form (Name, Phone, Address)
+  - [x] Payment Method Selection (QR vs COD)
+  - [x] **QR Logic:**
+    - [x] Display Static QR Image
+    - [x] File Input for Payment Proof
+    - [ ] Upload to Supabase Storage (Mocked for now)
+  - [x] **Order Submission:**
+    - [ ] Create Order record (Mocked for now)
+    - [x] Clear Cart
+    - [x] Redirect to Success Page
 
 ---
 
@@ -102,17 +102,18 @@
   - [ ] Order Detail View
   - [ ] **Action:** Verify Payment (View screenshot -> Mark Paid)
   - [ ] **Action:** Update Status (Shipped, Delivered)
-- [ ] **Product Management**
-  - [ ] Product List
-  - [ ] Add/Edit Product Form
-  - [ ] Image Upload (Supabase)
+- [x] **Product Management**
+  - [x] Product List
+  - [x] Add/Edit Product Form
+  - [x] Image Upload (Supabase - UI ready, logic Mocked)
 
 ---
 
 ## 6. Features: Chatbot
-- [ ] **Chat Widget UI**
-  - [ ] Floating button
-  - [ ] Chat window component
+- [x] **AI Chatbot (Vibe Bot)**
+  - [x] Chat Widget UI (Floating)
+  - [x] Basic "Rule-based" Logic (Delivery, Payment info)
+  - [ ] Connect to Real LLM (DeepSeek/OpenAI - Optional for MVP)
 - [ ] **Backend API**
   - [ ] `/api/chat` route
   - [ ] Logic: Retrieve context (products/policies)
