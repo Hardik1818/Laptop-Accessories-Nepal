@@ -6,23 +6,25 @@ import nodemailer from 'nodemailer';
 
 // Create reusable transporter
 export const emailTransporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_USER, // Your Gmail address
-        pass: process.env.GMAIL_APP_PASSWORD, // Gmail App Password (NOT your regular password)
-    },
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.GMAIL_USER, // Your Gmail address
+    pass: process.env.GMAIL_APP_PASSWORD, // Gmail App Password (NOT your regular password)
+  },
 });
 
 // Verify transporter configuration
 export async function verifyEmailConfig() {
-    try {
-        await emailTransporter.verify();
-        console.log('✅ Email server is ready to send messages');
-        return true;
-    } catch (error) {
-        console.error('❌ Email server verification failed:', error);
-        return false;
-    }
+  try {
+    await emailTransporter.verify();
+    console.log('✅ Email server is ready to send messages');
+    return true;
+  } catch (error) {
+    console.error('❌ Email server verification failed:', error);
+    return false;
+  }
 }
 
 // ========================================
@@ -30,36 +32,36 @@ export async function verifyEmailConfig() {
 // ========================================
 
 interface OrderEmailData {
-    orderId: string;
-    customerName: string;
-    customerEmail?: string;
-    items: Array<{
-        name: string;
-        quantity: number;
-        price: number;
-    }>;
-    total: number;
-    paymentMethod: string;
-    address: string;
-    phone: string;
+  orderId: string;
+  customerName: string;
+  customerEmail?: string;
+  items: Array<{
+    name: string;
+    quantity: number;
+    price: number;
+  }>;
+  total: number;
+  paymentMethod: string;
+  address: string;
+  phone: string;
 }
 
 interface ContactFormData {
-    name: string;
-    email: string;
-    subject: string;
-    message: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
 }
 
 interface RepairBookingData {
-    bookingId: string;
-    customerName: string;
-    customerEmail?: string;
-    deviceType: string;
-    brand?: string;
-    model?: string;
-    issueDescription: string;
-    phone: string;
+  bookingId: string;
+  customerName: string;
+  customerEmail?: string;
+  deviceType: string;
+  brand?: string;
+  model?: string;
+  issueDescription: string;
+  phone: string;
 }
 
 // ========================================
@@ -67,9 +69,9 @@ interface RepairBookingData {
 // ========================================
 
 export function getOrderConfirmationEmailHTML(data: OrderEmailData): string {
-    const itemsHTML = data.items
-        .map(
-            (item) => `
+  const itemsHTML = data.items
+    .map(
+      (item) => `
     <tr>
       <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.name}</td>
       <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: center;">${item.quantity}</td>
@@ -77,10 +79,10 @@ export function getOrderConfirmationEmailHTML(data: OrderEmailData): string {
       <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">NPR ${(item.price * item.quantity).toLocaleString()}</td>
     </tr>
   `
-        )
-        .join('');
+    )
+    .join('');
 
-    return `
+  return `
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,17 +129,17 @@ export function getOrderConfirmationEmailHTML(data: OrderEmailData): string {
     </table>
     
     ${data.paymentMethod === 'QR'
-            ? `
+      ? `
     <div style="background: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 8px; margin: 20px 0;">
       <p style="margin: 0; color: #856404;"><strong>⚠️ Payment Pending:</strong> Please upload your payment proof to complete your order. Our team will verify and confirm your order within 24 hours.</p>
     </div>
     `
-            : `
+      : `
     <div style="background: #d4edda; border: 1px solid #28a745; padding: 15px; border-radius: 8px; margin: 20px 0;">
       <p style="margin: 0; color: #155724;"><strong>✅ Cash on Delivery:</strong> Please keep the exact amount ready. Our delivery partner will contact you soon.</p>
     </div>
     `
-        }
+    }
     
     <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #eee;">
       <p style="margin: 5px 0;"><strong>Need help?</strong></p>
@@ -159,14 +161,14 @@ export function getOrderConfirmationEmailHTML(data: OrderEmailData): string {
 // ========================================
 
 export function getNewOrderAlertEmailHTML(data: OrderEmailData): string {
-    const itemsHTML = data.items
-        .map(
-            (item) =>
-                `<li>${item.name} - Qty: ${item.quantity} - NPR ${(item.price * item.quantity).toLocaleString()}</li>`
-        )
-        .join('');
+  const itemsHTML = data.items
+    .map(
+      (item) =>
+        `<li>${item.name} - Qty: ${item.quantity} - NPR ${(item.price * item.quantity).toLocaleString()}</li>`
+    )
+    .join('');
 
-    return `
+  return `
 <!DOCTYPE html>
 <html>
 <head>
@@ -215,7 +217,7 @@ export function getNewOrderAlertEmailHTML(data: OrderEmailData): string {
 // ========================================
 
 export function getContactFormAutoReplyHTML(data: ContactFormData): string {
-    return `
+  return `
 <!DOCTYPE html>
 <html>
 <head>
@@ -255,7 +257,7 @@ export function getContactFormAutoReplyHTML(data: ContactFormData): string {
 // ========================================
 
 export function getContactFormNotificationHTML(data: ContactFormData): string {
-    return `
+  return `
 <!DOCTYPE html>
 <html>
 <head>
@@ -296,7 +298,7 @@ export function getContactFormNotificationHTML(data: ContactFormData): string {
 // ========================================
 
 export function getRepairBookingConfirmationHTML(data: RepairBookingData): string {
-    return `
+  return `
 <!DOCTYPE html>
 <html>
 <head>
@@ -344,7 +346,7 @@ export function getRepairBookingConfirmationHTML(data: RepairBookingData): strin
 // ========================================
 
 export function getPaymentVerifiedEmailHTML(data: OrderEmailData): string {
-    return `
+  return `
 <!DOCTYPE html>
 <html>
 <head>
@@ -383,9 +385,9 @@ export function getPaymentVerifiedEmailHTML(data: OrderEmailData): string {
 // ========================================
 
 export function getOrderShippedEmailHTML(
-    data: OrderEmailData & { trackingNumber?: string }
+  data: OrderEmailData & { trackingNumber?: string }
 ): string {
-    return `
+  return `
 <!DOCTYPE html>
 <html>
 <head>
@@ -428,132 +430,132 @@ export function getOrderShippedEmailHTML(
 // ========================================
 
 export async function sendOrderConfirmationEmail(data: OrderEmailData) {
-    if (!data.customerEmail) {
-        console.log('⚠️ No customer email provided, skipping order confirmation email');
-        return { success: false, message: 'No email provided' };
-    }
+  if (!data.customerEmail) {
+    console.log('⚠️ No customer email provided, skipping order confirmation email');
+    return { success: false, message: 'No email provided' };
+  }
 
-    try {
-        await emailTransporter.sendMail({
-            from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
-            to: data.customerEmail,
-            subject: `Order Confirmation - ${data.orderId}`,
-            html: getOrderConfirmationEmailHTML(data),
-        });
+  try {
+    await emailTransporter.sendMail({
+      from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
+      to: data.customerEmail,
+      subject: `Order Confirmation - ${data.orderId}`,
+      html: getOrderConfirmationEmailHTML(data),
+    });
 
-        console.log(`✅ Order confirmation email sent to ${data.customerEmail}`);
-        return { success: true };
-    } catch (error) {
-        console.error('❌ Failed to send order confirmation email:', error);
-        return { success: false, error };
-    }
+    console.log(`✅ Order confirmation email sent to ${data.customerEmail}`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Failed to send order confirmation email:', error);
+    return { success: false, error };
+  }
 }
 
 export async function sendNewOrderAlertEmail(data: OrderEmailData) {
-    const adminEmail = process.env.ADMIN_EMAIL || process.env.GMAIL_USER;
+  const adminEmail = process.env.ADMIN_EMAIL || process.env.GMAIL_USER;
 
-    try {
-        await emailTransporter.sendMail({
-            from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
-            to: adminEmail,
-            subject: `🔔 New Order Received - ${data.orderId}`,
-            html: getNewOrderAlertEmailHTML(data),
-        });
+  try {
+    await emailTransporter.sendMail({
+      from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
+      to: adminEmail,
+      subject: `🔔 New Order Received - ${data.orderId}`,
+      html: getNewOrderAlertEmailHTML(data),
+    });
 
-        console.log(`✅ New order alert sent to admin`);
-        return { success: true };
-    } catch (error) {
-        console.error('❌ Failed to send new order alert:', error);
-        return { success: false, error };
-    }
+    console.log(`✅ New order alert sent to admin`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Failed to send new order alert:', error);
+    return { success: false, error };
+  }
 }
 
 export async function sendContactFormEmails(data: ContactFormData) {
-    const adminEmail = process.env.ADMIN_EMAIL || process.env.GMAIL_USER;
+  const adminEmail = process.env.ADMIN_EMAIL || process.env.GMAIL_USER;
 
-    try {
-        // Send auto-reply to customer
-        await emailTransporter.sendMail({
-            from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
-            to: data.email,
-            subject: 'Thank You for Contacting Us',
-            html: getContactFormAutoReplyHTML(data),
-        });
+  try {
+    // Send auto-reply to customer
+    await emailTransporter.sendMail({
+      from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
+      to: data.email,
+      subject: 'Thank You for Contacting Us',
+      html: getContactFormAutoReplyHTML(data),
+    });
 
-        // Send notification to admin
-        await emailTransporter.sendMail({
-            from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
-            to: adminEmail,
-            subject: `📬 New Contact Form: ${data.subject}`,
-            html: getContactFormNotificationHTML(data),
-        });
+    // Send notification to admin
+    await emailTransporter.sendMail({
+      from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
+      to: adminEmail,
+      subject: `📬 New Contact Form: ${data.subject}`,
+      html: getContactFormNotificationHTML(data),
+    });
 
-        console.log(`✅ Contact form emails sent`);
-        return { success: true };
-    } catch (error) {
-        console.error('❌ Failed to send contact form emails:', error);
-        return { success: false, error };
-    }
+    console.log(`✅ Contact form emails sent`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Failed to send contact form emails:', error);
+    return { success: false, error };
+  }
 }
 
 export async function sendRepairBookingConfirmation(data: RepairBookingData) {
-    if (!data.customerEmail) {
-        console.log('⚠️ No customer email provided, skipping repair booking confirmation');
-        return { success: false, message: 'No email provided' };
-    }
+  if (!data.customerEmail) {
+    console.log('⚠️ No customer email provided, skipping repair booking confirmation');
+    return { success: false, message: 'No email provided' };
+  }
 
-    try {
-        await emailTransporter.sendMail({
-            from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
-            to: data.customerEmail,
-            subject: `Repair Booking Confirmed - ${data.bookingId}`,
-            html: getRepairBookingConfirmationHTML(data),
-        });
+  try {
+    await emailTransporter.sendMail({
+      from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
+      to: data.customerEmail,
+      subject: `Repair Booking Confirmed - ${data.bookingId}`,
+      html: getRepairBookingConfirmationHTML(data),
+    });
 
-        console.log(`✅ Repair booking confirmation sent to ${data.customerEmail}`);
-        return { success: true };
-    } catch (error) {
-        console.error('❌ Failed to send repair booking confirmation:', error);
-        return { success: false, error };
-    }
+    console.log(`✅ Repair booking confirmation sent to ${data.customerEmail}`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Failed to send repair booking confirmation:', error);
+    return { success: false, error };
+  }
 }
 
 export async function sendPaymentVerifiedEmail(data: OrderEmailData) {
-    if (!data.customerEmail) return { success: false, message: 'No email provided' };
+  if (!data.customerEmail) return { success: false, message: 'No email provided' };
 
-    try {
-        await emailTransporter.sendMail({
-            from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
-            to: data.customerEmail,
-            subject: `Payment Verified - Order ${data.orderId}`,
-            html: getPaymentVerifiedEmailHTML(data),
-        });
+  try {
+    await emailTransporter.sendMail({
+      from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
+      to: data.customerEmail,
+      subject: `Payment Verified - Order ${data.orderId}`,
+      html: getPaymentVerifiedEmailHTML(data),
+    });
 
-        console.log(`✅ Payment verified email sent to ${data.customerEmail}`);
-        return { success: true };
-    } catch (error) {
-        console.error('❌ Failed to send payment verified email:', error);
-        return { success: false, error };
-    }
+    console.log(`✅ Payment verified email sent to ${data.customerEmail}`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Failed to send payment verified email:', error);
+    return { success: false, error };
+  }
 }
 
 export async function sendOrderShippedEmail(
-    data: OrderEmailData & { trackingNumber?: string }
+  data: OrderEmailData & { trackingNumber?: string }
 ) {
-    if (!data.customerEmail) return { success: false, message: 'No email provided' };
+  if (!data.customerEmail) return { success: false, message: 'No email provided' };
 
-    try {
-        await emailTransporter.sendMail({
-            from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
-            to: data.customerEmail,
-            subject: `Order Shipped - ${data.orderId}`,
-            html: getOrderShippedEmailHTML(data),
-        });
+  try {
+    await emailTransporter.sendMail({
+      from: `"Laptop Accessories Nepal" <${process.env.GMAIL_USER}>`,
+      to: data.customerEmail,
+      subject: `Order Shipped - ${data.orderId}`,
+      html: getOrderShippedEmailHTML(data),
+    });
 
-        console.log(`✅ Order shipped email sent to ${data.customerEmail}`);
-        return { success: true };
-    } catch (error) {
-        console.error('❌ Failed to send order shipped email:', error);
-        return { success: false, error };
-    }
+    console.log(`✅ Order shipped email sent to ${data.customerEmail}`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Failed to send order shipped email:', error);
+    return { success: false, error };
+  }
 }
