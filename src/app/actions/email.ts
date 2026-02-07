@@ -19,7 +19,7 @@ export async function sendOrderNotificationEmail(order: any, items: any[]) {
     }
 
     try {
-        const adminEmail = "laptopaccessoriesnepal@gmail.com";
+        const adminEmail = process.env.ADMIN_EMAIL || "laptopaccessnepal@gmail.com";
         const body = getOrderEmailTemplate(order, items);
 
         const info = await transporter.sendMail({
@@ -45,7 +45,7 @@ export async function sendContactEmail(contactData: { firstName: string, lastNam
     }
 
     try {
-        const adminEmail = "laptopaccessoriesnepal@gmail.com";
+        const adminEmail = process.env.ADMIN_EMAIL || "laptopaccessnepal@gmail.com";
         const body = getContactEmailTemplate(contactData);
 
         const info = await transporter.sendMail({

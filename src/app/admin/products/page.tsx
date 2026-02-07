@@ -12,9 +12,13 @@ import { Plus, Edit, Trash, Search, Image as ImageIcon, Loader2, Package, Shield
 import Image from "next/image";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function AdminProductsPage() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [categories, setCategories] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -29,13 +33,33 @@ export default function AdminProductsPage() {
         images: [],
         compatibility: "",
         warranty: "",
+        is_featured: false,
+        is_trending: false,
     });
     const [uploadingImage, setUploadingImage] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
         fetchProducts();
+        fetchCategories();
     }, []);
+
+    const fetchCategories = async () => {
+        const { data } = await supabase
+            .from('categories')
+            .select('*')
+            .order('display_order', { ascending: true });
+
+        if (data) {
+            // Organize into tree: Parents -> Subcategories
+            const parents = data.filter((c: any) => !c.parent_id);
+            const tree = parents.map((p: any) => ({
+                ...p,
+                children: data.filter((c: any) => c.parent_id === p.id)
+            }));
+            setCategories(tree);
+        }
+    };
 
     const fetchProducts = async () => {
         setLoading(true);
@@ -65,6 +89,8 @@ export default function AdminProductsPage() {
                 images: [],
                 compatibility: "",
                 warranty: "",
+                is_featured: false,
+                is_trending: false,
             });
         }
         setIsDialogOpen(true);
@@ -216,8 +242,12 @@ export default function AdminProductsPage() {
                                         </div>
                                     </TableCell>
                                     <TableCell className="font-medium text-slate-200 pl-4">
-                                        <div className="flex flex-col">
-                                            <span className="line-clamp-1">{product.name}</span>
+                                        <div className="flex flex-col gap-1">
+                                            <div className="flex items-center gap-2">
+                                                <span className="line-clamp-1">{product.name}</span>
+                                                {product.is_featured && <Badge variant="secondary" className="h-5 px-1.5 text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-md font-bold tracking-wide">HERO</Badge>}
+                                                {product.is_trending && <Badge variant="secondary" className="h-5 px-1.5 text-[10px] bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-md font-bold tracking-wide">TREND</Badge>}
+                                            </div>
                                             <span className="text-[10px] text-slate-500 font-normal line-clamp-1">{product.description?.substring(0, 50)}...</span>
                                         </div>
                                     </TableCell>
@@ -262,55 +292,97 @@ export default function AdminProductsPage() {
                             <Button variant="ghost" size="icon" className="absolute right-4 md:right-6 top-4 md:top-6 rounded-full hover:bg-slate-800/50" onClick={() => setIsDialogOpen(false)}>
                                 <X className="h-5 w-5" />
                             </Button>
-                            <CardTitle className="text-2xl md:text-4xl font-black italic tracking-tighter uppercase">{editingProduct ? "Revise Asset" : "Initialize Asset"}</CardTitle>
-                            <CardDescription className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mt-1">Product Configuration Module</CardDescription>
+                            <CardTitle className="text-2xl md:text-4xl font-black italic tracking-tighter uppercase">{editingProduct ? "Edit Product" : "Add New Product"}</CardTitle>
+                            <CardDescription className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mt-1">Fill in the details below</CardDescription>
                         </CardHeader>
 
                         <CardContent className="p-4 md:p-8 pt-4 overflow-y-auto flex-1">
                             <form id="product-form" onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                 <div className="space-y-6">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Core Identity</label>
-                                        <Input placeholder="Component Name" required className="bg-slate-950 border-slate-800 text-white h-12 text-lg font-bold placeholder:font-medium transition-all focus:border-blue-600/50" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Basic Information</label>
+                                        <Input placeholder="Product Name" required className="bg-slate-950 border-slate-800 text-white h-12 text-lg font-bold placeholder:font-medium transition-all focus:border-blue-600/50" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Classification</label>
-                                            <Input placeholder="e.g. SSD, GPU" required className="bg-slate-950 border-slate-800 text-white h-11 font-medium italic" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} />
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Category</label>
+                                            <Select
+                                                value={formData.category}
+                                                onValueChange={(val) => setFormData({ ...formData, category: val })}
+                                            >
+                                                <SelectTrigger className="bg-slate-950 border-slate-800 text-white h-11 font-medium italic">
+                                                    <SelectValue placeholder="Choose Category" />
+                                                </SelectTrigger>
+                                                <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                                                    {categories.map((parent) => (
+                                                        <SelectGroup key={parent.id}>
+                                                            <SelectLabel className="text-slate-500 pl-2 py-1.5 text-[10px] uppercase tracking-widest font-black bg-slate-950/50 block w-full">{parent.name}</SelectLabel>
+                                                            {parent.children?.map((child: any) => (
+                                                                <SelectItem key={child.id} value={child.name} className="pl-4 text-slate-300 focus:bg-blue-600 focus:text-white cursor-pointer py-2">
+                                                                    {child.name}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectGroup>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Unit Weight</label>
-                                            <Input type="number" placeholder="Stock Level" required className="bg-slate-950 border-slate-800 text-white h-11 font-medium" value={formData.stock} onChange={e => setFormData({ ...formData, stock: parseInt(e.target.value) })} />
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Stock Quantity</label>
+                                            <Input type="number" placeholder="Enter stock amount" required className="bg-slate-950 border-slate-800 text-white h-11 font-medium" value={formData.stock} onChange={e => setFormData({ ...formData, stock: parseInt(e.target.value) })} />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Commercial Value (NPR)</label>
-                                        <Input type="number" placeholder="Price Point" required className="bg-slate-950 border-slate-800 text-white h-11 font-black text-blue-400" value={formData.price} onChange={e => setFormData({ ...formData, price: parseInt(e.target.value) })} />
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Price (NPR)</label>
+                                        <Input type="number" placeholder="Enter price" required className="bg-slate-950 border-slate-800 text-white h-11 font-black text-blue-400" value={formData.price} onChange={e => setFormData({ ...formData, price: parseInt(e.target.value) })} />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Technical Overview</label>
-                                        <Textarea placeholder="Describe the hardware capabilities..." className="bg-slate-950 border-slate-800 text-white h-32 resize-none leading-relaxed" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Product Description</label>
+                                        <Textarea placeholder="Tell us about this product..." className="bg-slate-950 border-slate-800 text-white h-32 resize-none leading-relaxed" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-3 p-4 border border-slate-800 rounded-xl bg-slate-950/30">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Display Settings</label>
+                                        <div className="flex gap-6">
+                                            <div className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id="is_featured"
+                                                    checked={formData.is_featured || false}
+                                                    onCheckedChange={(checked) => setFormData({ ...formData, is_featured: checked as boolean })}
+                                                    className="border-slate-700 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                                                />
+                                                <Label htmlFor="is_featured" className="text-sm font-medium text-slate-300">Feature on Homepage</Label>
+                                            </div>
+                                            <div className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id="is_trending"
+                                                    checked={formData.is_trending || false}
+                                                    onCheckedChange={(checked) => setFormData({ ...formData, is_trending: checked as boolean })}
+                                                    className="border-slate-700 data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600"
+                                                />
+                                                <Label htmlFor="is_trending" className="text-sm font-medium text-slate-300">Mark as Trending</Label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div className="space-y-6">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Eco-System Binding</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Compatibility</label>
                                         <div className="relative">
                                             <Cpu className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600" />
-                                            <Input placeholder="PC, Server, Mobile Compatibility" className="bg-slate-950 border-slate-800 text-white h-11 pl-10" value={formData.compatibility} onChange={e => setFormData({ ...formData, compatibility: e.target.value })} />
+                                            <Input placeholder="Works with (e.g. PC, Mobile, Laptops)" className="bg-slate-950 border-slate-800 text-white h-11 pl-10" value={formData.compatibility} onChange={e => setFormData({ ...formData, compatibility: e.target.value })} />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Service Assurance</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Warranty Information</label>
                                         <div className="relative">
                                             <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600" />
-                                            <Input placeholder="Warranty Terms" className="bg-slate-950 border-slate-800 text-white h-11 pl-10" value={formData.warranty} onChange={e => setFormData({ ...formData, warranty: e.target.value })} />
+                                            <Input placeholder="e.g. 1 Year Warranty" className="bg-slate-950 border-slate-800 text-white h-11 pl-10" value={formData.warranty} onChange={e => setFormData({ ...formData, warranty: e.target.value })} />
                                         </div>
                                     </div>
 
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Visual Documentation (Media)</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Product Images</label>
                                         <div className="grid grid-cols-3 gap-3">
                                             {formData.images?.map((img, idx) => (
                                                 <div key={idx} className="aspect-square relative rounded-xl border border-slate-800 overflow-hidden group/img shadow-2xl">
@@ -323,22 +395,22 @@ export default function AdminProductsPage() {
                                             {(formData.images?.length || 0) < 6 && (
                                                 <label className="aspect-square flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-xl bg-slate-950/50 hover:bg-slate-950 hover:border-blue-600/30 cursor-pointer transition-all group overflow-hidden">
                                                     {uploadingImage ? <Loader2 className="h-5 w-5 animate-spin text-blue-500" /> : <Box className="h-5 w-5 text-slate-600 group-hover:text-blue-500" />}
-                                                    <span className="text-[10px] mt-2 font-black uppercase text-slate-700 group-hover:text-slate-400 tracking-tighter">Inject Media</span>
+                                                    <span className="text-[10px] mt-2 font-black uppercase text-slate-700 group-hover:text-slate-400 tracking-tighter">Add Image</span>
                                                     <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploadingImage} />
                                                 </label>
                                             )}
                                         </div>
-                                        <p className="text-[9px] text-slate-600 font-bold uppercase tracking-widest text-center mt-2 italic">Max 6 Spectral Captures Permitted</p>
+                                        <p className="text-[9px] text-slate-600 font-bold uppercase tracking-widest text-center mt-2 italic">Maximum 6 images allowed</p>
                                     </div>
                                 </div>
                             </form>
                         </CardContent>
 
                         <CardFooter className="p-4 md:p-8 pt-0 flex justify-end gap-3 shrink-0">
-                            <Button variant="ghost" onClick={() => setIsDialogOpen(false)} className="text-slate-500 hover:text-white font-bold h-12 px-6">ABORT</Button>
+                            <Button variant="ghost" onClick={() => setIsDialogOpen(false)} className="text-slate-500 hover:text-white font-bold h-12 px-6">CANCEL</Button>
                             <Button type="submit" form="product-form" disabled={submitting} className="bg-blue-600 hover:bg-blue-700 px-6 md:px-10 h-12 text-sm md:text-md font-black italic tracking-tighter shadow-xl shadow-blue-900/40">
                                 {submitting ? <Loader2 className="mr-3 h-5 w-5 animate-spin" /> : <Plus className="mr-3 h-5 w-5" />}
-                                {editingProduct ? "UPDATE DATABASE" : "FINALIZE ENTRY"}
+                                {editingProduct ? "UPDATE PRODUCT" : "SAVE PRODUCT"}
                             </Button>
                         </CardFooter>
                     </Card>

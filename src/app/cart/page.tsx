@@ -5,7 +5,7 @@ import { useSettings } from "@/context/SettingsContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trash2, Plus, Minus, Upload, ShoppingCart, ShieldCheck, Truck, QrCode, CheckCircle2, PackageCheck } from "lucide-react";
+import { Trash2, Plus, Minus, Upload, ShoppingCart, ShieldCheck, Truck, QrCode, CheckCircle2, PackageCheck, Download } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
@@ -241,6 +241,32 @@ export default function CartPage() {
                                                 <div className="relative w-56 h-56 bg-white p-3 rounded-2xl shadow-xl">
                                                     <Image src={QR_IMAGE} alt="Payment QR" fill className="object-cover rounded-xl" />
                                                 </div>
+                                                <Button
+                                                    type="button"
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+                                                    onClick={async () => {
+                                                        try {
+                                                            const response = await fetch(QR_IMAGE);
+                                                            const blob = await response.blob();
+                                                            const url = window.URL.createObjectURL(blob);
+                                                            const link = document.createElement('a');
+                                                            link.href = url;
+                                                            link.download = 'payment-qr.png';
+                                                            document.body.appendChild(link);
+                                                            link.click();
+                                                            document.body.removeChild(link);
+                                                            window.URL.revokeObjectURL(url);
+                                                        } catch (error) {
+                                                            console.error("Download failed:", error);
+                                                            window.open(QR_IMAGE, '_blank');
+                                                        }
+                                                    }}
+                                                >
+                                                    <Download className="mr-2 h-4 w-4" />
+                                                    Download QR
+                                                </Button>
                                                 <div className="w-full max-w-sm space-y-2">
                                                     <label className="text-sm font-medium text-slate-300 block text-center">Upload Payment Screenshot</label>
                                                     <div className="relative">

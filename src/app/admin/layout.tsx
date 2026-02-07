@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
 import { logoutAction } from "./actions";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { LayoutDashboard, Package, ShoppingBag, Settings, LogOut, Laptop, Menu } from "lucide-react";
@@ -63,7 +64,7 @@ export default function AdminLayout({
                             )}
                             asChild
                         >
-                            <a href={item.href}>
+                            <Link href={item.href}>
                                 <item.icon className={cn(
                                     "mr-3 h-5 w-5 transition-colors",
                                     isActive ? "text-blue-400" : "text-slate-500 group-hover:text-slate-300"
@@ -72,7 +73,7 @@ export default function AdminLayout({
                                 {isActive && (
                                     <div className="absolute right-0 top-2 bottom-2 w-1 bg-blue-600 rounded-l-full shadow-[0_0_12px_rgba(37,99,235,0.5)]" />
                                 )}
-                            </a>
+                            </Link>
                         </Button>
                     );
                 })}

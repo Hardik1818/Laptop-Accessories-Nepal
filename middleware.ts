@@ -8,10 +8,9 @@ export function middleware(request: NextRequest) {
     // But allow the /admin (login) page itself.
     if (pathname.startsWith('/admin') && pathname !== '/admin') {
         const adminSession = request.cookies.get('admin_session')
-        const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'
+        const adminPassword = (process.env.ADMIN_PASSWORD || 'admin123').trim()
 
         if (!adminSession || adminSession.value !== adminPassword) {
-            // Redirect to login if no valid session
             return NextResponse.redirect(new URL('/admin', request.url))
         }
     }
@@ -20,7 +19,7 @@ export function middleware(request: NextRequest) {
     // redirect them to the dashboard.
     if (pathname === '/admin') {
         const adminSession = request.cookies.get('admin_session')
-        const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'
+        const adminPassword = (process.env.ADMIN_PASSWORD || 'admin123').trim()
 
         if (adminSession?.value === adminPassword) {
             return NextResponse.redirect(new URL('/admin/dashboard', request.url))

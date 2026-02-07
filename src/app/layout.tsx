@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { SettingsProvider } from "@/context/SettingsContext";
 import { ClientLayout } from "@/components/layout/ClientLayout";
+import { NavbarWrapper } from "@/components/layout/NavbarWrapper";
 import { Toaster } from "sonner";
 
 const inter = Inter({
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={`${inter.variable} antialiased bg-[#0e0e0e] text-slate-100 min-h-screen flex flex-col`}>
         <SettingsProvider>
           <CartProvider>
+            <NavbarWrapper />
             <ClientLayout>
               {children}
             </ClientLayout>

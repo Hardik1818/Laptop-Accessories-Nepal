@@ -1,4 +1,5 @@
 import { HeroBanner } from "@/components/home/HeroBanner";
+import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { ProductCard } from "@/components/product/ProductCard";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
@@ -74,6 +75,11 @@ export default async function Home() {
               View All Arrivals <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
+        </section>
+
+        {/* Reviews Section */}
+        <section className="animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-700">
+          <ReviewsSection />
         </section>
 
       </div>

@@ -79,7 +79,7 @@ export function ChatWidget() {
             <Button
                 size="icon"
                 className={cn(
-                    "fixed bottom-4 right-4 md:bottom-6 md:right-6 h-12 w-12 md:h-16 md:w-16 rounded-2xl shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all duration-500 z-50 hover:scale-110 group border-2 border-blue-500/20 overflow-hidden",
+                    "fixed bottom-20 right-4 lg:bottom-6 lg:right-6 h-12 w-12 md:h-16 md:w-16 rounded-2xl shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all duration-500 z-50 hover:scale-110 group border-2 border-blue-500/20 overflow-hidden",
                     isOpen
                         ? "rotate-90 scale-0 opacity-0"
                         : "scale-100 opacity-100 bg-slate-950"
@@ -93,13 +93,22 @@ export function ChatWidget() {
             {/* AI Nexus Window */}
             <div
                 className={cn(
-                    "fixed bottom-4 right-4 md:bottom-6 md:right-6 w-[calc(100vw-32px)] sm:w-[450px] max-h-[85vh] z-50 transition-all duration-500 origin-bottom-right",
+                    "fixed z-50 transition-all duration-500",
+                    // Mobile: Bottom positioned, full width with padding, above bottom nav
+                    "bottom-16 left-2 right-2 lg:bottom-6 lg:left-auto lg:right-6",
+                    // Width
+                    "w-auto lg:w-[450px]",
+                    // Height
+                    "max-h-[calc(100vh-140px)] lg:max-h-[85vh]",
+                    // Animation
                     isOpen
                         ? "scale-100 opacity-100 translate-y-0"
-                        : "scale-95 opacity-0 translate-y-10 pointer-events-none"
+                        : "scale-95 opacity-0 translate-y-10 pointer-events-none",
+                    // Origin
+                    "origin-bottom-right"
                 )}
             >
-                <Card className="border-slate-800 shadow-[0_0_80px_rgba(37,99,235,0.1)] bg-slate-950/95 backdrop-blur-2xl overflow-hidden flex flex-col h-[500px] sm:h-[600px] border-t-4 border-t-blue-600">
+                <Card className="border-slate-800 shadow-[0_0_80px_rgba(37,99,235,0.1)] bg-slate-950/98 backdrop-blur-2xl overflow-hidden flex flex-col h-[500px] lg:h-[600px] border-t-4 border-t-blue-600 rounded-2xl">
                     {/* Immersive Header */}
                     <CardHeader className="p-4 md:p-6 bg-slate-950/50 border-b border-slate-800/50 flex flex-row items-center justify-between space-y-0">
                         <div className="flex items-center gap-3 md:gap-4">
@@ -129,7 +138,7 @@ export function ChatWidget() {
 
                     {/* Infinite Data Stream (Messages) */}
                     <div
-                        className="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth scrollbar-hide no-scrollbar"
+                        className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4 lg:space-y-6 scroll-smooth scrollbar-hide no-scrollbar"
                         ref={scrollRef}
                     >
                         {messages.map((msg, i) => (
