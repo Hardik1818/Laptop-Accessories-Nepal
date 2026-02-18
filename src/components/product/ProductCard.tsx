@@ -22,7 +22,7 @@ export function ProductCard({ product }: ProductCardProps) {
         if (!isOutOfStock) {
             addItem(product);
             toast.success(`${product.name} added!`, {
-                icon: <CheckCircle2 className="h-4 w-4 text-green-500" />,
+                icon: <CheckCircle2 className="h-4 w-4 text-primary" />,
                 duration: 2000,
             });
         }

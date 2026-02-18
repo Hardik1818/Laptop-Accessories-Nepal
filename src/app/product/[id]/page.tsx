@@ -28,7 +28,6 @@ export default function ProductDetailPage() {
 
     useEffect(() => {
         const fetchProduct = async () => {
-            // Handle both id and slug if parameters allow, currently only [id]
             if (!params.id) return;
             const { data, error } = await supabase
                 .from("products")
@@ -41,7 +40,6 @@ export default function ProductDetailPage() {
                 setProduct(null);
             } else {
                 setProduct(data);
-                // Set initial image
                 if (data && data.images && data.images.length > 0) {
                     setSelectedImage(data.images[0]);
                 }
@@ -53,13 +51,14 @@ export default function ProductDetailPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-slate-950 px-4 py-8 md:py-12">
+            <div className="min-h-screen bg-background px-4 py-8 md:py-12">
                 <div className="container mx-auto max-w-6xl animate-pulse">
                     <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-start">
-                        <div className="aspect-[4/5] bg-white/5 rounded-3xl" />
+                        <div className="aspect-[4/5] bg-muted/30 rounded-3xl" />
                         <div className="space-y-6 pt-4">
-                            <div className="h-8 w-1/3 bg-white/5 rounded" />
-                            <div className="h-4 w-full bg-white/5 rounded" />
+                            <div className="h-8 w-1/3 bg-muted/30 rounded" />
+                            <div className="h-4 w-full bg-muted/30 rounded" />
+                            <div className="h-12 w-2/3 bg-muted/30 rounded" />
                         </div>
                     </div>
                 </div>
@@ -68,11 +67,13 @@ export default function ProductDetailPage() {
     }
 
     if (!product) return (
-        <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-slate-400">
-            <h1 className="text-2xl font-bold text-white mb-2">Product Not Found</h1>
-            <p className="mb-6">The product you are looking for does not exist.</p>
+        <div className="min-h-screen bg-background flex flex-col items-center justify-center text-muted-foreground px-4">
+            <h1 className="text-2xl font-bold text-foreground mb-2">Product Not Found</h1>
+            <p className="mb-6 text-center">The product you are looking for does not exist or has been removed.</p>
             <Link href="/shop">
-                <Button>Back to Shop</Button>
+                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8">
+                    Back to Shop
+                </Button>
             </Link>
         </div>
     );
@@ -80,45 +81,38 @@ export default function ProductDetailPage() {
     const isOutOfStock = product.stock <= 0;
 
     const handleAddToCart = () => {
-        addItem(product, quantity); // Ensure addItem handles quantity, or call it loop?
-        // useCart usually: addItem(product). If it handles quantity, good.
-        // Assuming addItem(product, quantity) signature.
-        // If not, I should call addItem multipletimes? No, that's bad.
-        // I'll check useCart context context later.
-        // For now assume standard quantity support or single add.
-
+        addItem(product, quantity);
         toast.success(`${quantity} x ${product.name} added to cart!`, {
-            icon: <CheckCircle2 className="h-4 w-4 text-green-500" />,
+            icon: <CheckCircle2 className="h-4 w-4 text-primary" />,
             description: "View your cart to checkout.",
             duration: 3000,
         });
     };
 
-    // Derived short description
     const shortDesc = product.description.length > 150
         ? product.description.substring(0, 150) + "..."
         : product.description;
 
     return (
-        <div className="min-h-screen bg-slate-950 text-slate-100 py-6 md:py-12 px-4">
+        <div className="min-h-screen bg-background text-foreground py-6 md:py-12 px-4 md:px-6">
             <div className="container mx-auto max-w-6xl">
                 {/* Back Button */}
-                <Link href="/shop" className="inline-flex items-center text-sm font-medium text-slate-400 hover:text-white transition-colors mb-6 md:mb-10 group">
-                    <div className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center mr-3 group-hover:bg-blue-600 transition-colors">
+                <Link href="/shop" className="inline-flex items-center text-sm font-semibold text-muted-foreground hover:text-primary transition-all mb-6 md:mb-10 group">
+                    <div className="h-9 w-9 rounded-full bg-muted flex items-center justify-center mr-3 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 shadow-sm">
                         <ArrowLeft className="h-4 w-4" />
                     </div>
                     Back to Shop
                 </Link>
 
-                <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-start mb-16">
-                    {/* Visual Section */}
-                    <div className="space-y-4">
-                        <div className="relative aspect-[4/5] bg-slate-900 rounded-3xl overflow-hidden border border-white/10 shadow-2xl group/image">
+                <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start mb-16">
+                    {/* Visual Section - 7/12 for large screens */}
+                    <div className="lg:col-span-7 space-y-6">
+                        <div className="relative aspect-[4/5] md:aspect-square bg-white rounded-[2rem] overflow-hidden border border-border shadow-xl group/image">
                             <Image
                                 src={selectedImage || product.images[0]}
                                 alt={product.name}
                                 fill
-                                className="object-cover transition-transform duration-700"
+                                className="object-cover transition-transform duration-700 hover:scale-105"
                                 priority
                             />
 
@@ -132,7 +126,7 @@ export default function ProductDetailPage() {
                                             const prevIndex = currentIndex === 0 ? product.images.length - 1 : currentIndex - 1;
                                             setSelectedImage(product.images[prevIndex]);
                                         }}
-                                        className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white opacity-0 group-hover/image:opacity-100 transition-opacity hover:bg-black/70 z-20"
+                                        className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-foreground opacity-0 group-hover/image:opacity-100 transition-all duration-300 hover:bg-primary hover:text-white shadow-lg z-20"
                                     >
                                         <ChevronLeft className="h-6 w-6" />
                                     </button>
@@ -143,7 +137,7 @@ export default function ProductDetailPage() {
                                             const nextIndex = currentIndex === product.images.length - 1 ? 0 : currentIndex + 1;
                                             setSelectedImage(product.images[nextIndex]);
                                         }}
-                                        className="absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white opacity-0 group-hover/image:opacity-100 transition-opacity hover:bg-black/70 z-20"
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-foreground opacity-0 group-hover/image:opacity-100 transition-all duration-300 hover:bg-primary hover:text-white shadow-lg z-20"
                                     >
                                         <ChevronRight className="h-6 w-6" />
                                     </button>
@@ -151,178 +145,209 @@ export default function ProductDetailPage() {
                             )}
 
                             {isOutOfStock && (
-                                <div className="absolute top-4 right-4 z-10">
-                                    <Badge variant="destructive" className="text-sm px-3 py-1">Out of Stock</Badge>
+                                <div className="absolute top-6 right-6 z-10">
+                                    <Badge className="bg-destructive text-white border-none text-sm px-4 py-1.5 shadow-lg rounded-full">
+                                        Out of Stock
+                                    </Badge>
                                 </div>
                             )}
                         </div>
                         {/* Thumbnails Grid */}
                         {product.images.length > 1 && (
-                            <div className="grid grid-cols-4 gap-3">
+                            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-none">
                                 {product.images.map((img, i) => (
-                                    <div
+                                    <button
                                         key={i}
-                                        className={`relative aspect-square rounded-xl overflow-hidden cursor-pointer border-2 transition-all ${selectedImage === img ? 'border-blue-500 ring-2 ring-blue-500/20' : 'border-transparent hover:border-white/20'}`}
+                                        className={cn(
+                                            "relative h-20 w-20 flex-shrink-0 rounded-2xl overflow-hidden border-2 transition-all p-0.5 bg-white",
+                                            selectedImage === img
+                                                ? 'border-primary shadow-md ring-2 ring-primary/10'
+                                                : 'border-transparent hover:border-border grayscale hover:grayscale-0'
+                                        )}
                                         onClick={() => setSelectedImage(img)}
                                     >
-                                        <Image
-                                            src={img}
-                                            alt={`${product.name} view ${i + 1}`}
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    </div>
+                                        <div className="relative h-full w-full rounded-xl overflow-hidden">
+                                            <Image
+                                                src={img}
+                                                alt={`${product.name} thumbnail ${i + 1}`}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                    </button>
                                 ))}
                             </div>
                         )}
                     </div>
 
-                    {/* Details Section */}
-                    <div className="space-y-6 md:space-y-8 pt-2 md:pt-4">
+                    {/* Details Section - 5/12 for large screens */}
+                    <div className="lg:col-span-5 space-y-8">
                         <div>
-                            <div className="flex items-center gap-3 mb-4">
-                                <Badge className="bg-blue-600/10 text-blue-400 hover:bg-blue-600/20 border-blue-500/20 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase">
+                            <div className="flex flex-wrap items-center gap-2 mb-4">
+                                <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-none px-4 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">
                                     {product.category}
                                 </Badge>
                                 {product.condition && (
-                                    <Badge variant="outline" className="text-slate-400 border-slate-700">
+                                    <Badge variant="outline" className="text-muted-foreground border-border bg-muted/30 font-medium rounded-full px-3 py-1">
                                         {product.condition}
                                     </Badge>
                                 )}
-                                <div className="flex items-center text-xs font-bold text-green-400 bg-green-900/20 px-2 py-0.5 rounded border border-green-500/20 ml-auto">
-                                    <ShieldCheck className="w-3 h-3 mr-1" />
-                                    Original
+                                <div className="flex items-center text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 ml-auto whitespace-nowrap">
+                                    <ShieldCheck className="w-3.5 h-3.5 mr-1.5" />
+                                    AUTHENTIC PRODUCT
                                 </div>
                             </div>
 
-                            <h1 className="text-2xl md:text-4xl lg:text-5xl font-black text-white tracking-tight mb-2 leading-[1.1]">
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground tracking-tight mb-4 leading-[1.15]">
                                 {product.name}
                             </h1>
-                            {/* Removed rating display per user request */}
-                            <div className="flex items-baseline gap-4">
-                                <span className="text-3xl md:text-4xl font-bold text-blue-400">
+
+                            <div className="flex flex-wrap items-baseline gap-4 mb-6">
+                                <span className="text-3xl md:text-5xl font-extrabold text-primary">
                                     NPR {product.price.toLocaleString()}
                                 </span>
-                                {product.stock > 0 && (
-                                    <span className="text-sm text-green-400 font-bold flex items-center gap-1.5 animate-in fade-in">
-                                        <div className="h-2 w-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)] animate-pulse" />
-                                        In Stock
+                                {product.original_price && (
+                                    <span className="text-xl text-muted-foreground line-through decoration-destructive/50">
+                                        NPR {product.original_price.toLocaleString()}
                                     </span>
                                 )}
                             </div>
-                        </div>
 
-                        <div className="h-px bg-white/10" />
-
-                        <div className="prose prose-invert prose-p:text-slate-400 prose-p:leading-relaxed max-w-none text-sm md:text-base">
-                            <p>{shortDesc}</p>
-                            {product.short_specs && (
-                                <p className="text-slate-300 font-medium bg-slate-900/50 p-3 rounded-lg border border-slate-800">
-                                    {product.short_specs}
+                            {!isOutOfStock && product.stock <= 5 && (
+                                <p className="text-sm text-destructive font-bold mb-4 flex items-center gap-2">
+                                    <div className="h-2 w-2 rounded-full bg-destructive animate-pulse" />
+                                    Only {product.stock} units left in stock!
                                 </p>
                             )}
                         </div>
 
+                        <div className="p-6 bg-muted/30 rounded-3xl border border-border space-y-4">
+                            <h3 className="text-xs font-bold text-muted-foreground tracking-widest uppercase">Quick Overview</h3>
+                            <div className="prose prose-sm prose-stone max-w-none text-muted-foreground leading-relaxed">
+                                <p>{shortDesc}</p>
+                                {product.short_specs && (
+                                    <div className="mt-4 flex flex-wrap gap-2">
+                                        {product.short_specs.split(',').map((spec, i) => (
+                                            <span key={i} className="inline-flex items-center px-2.5 py-1 rounded bg-white text-foreground text-[11px] font-semibold shadow-sm border border-border">
+                                                {spec.trim()}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
                         {/* Actions */}
-                        <div className="space-y-6">
+                        <div className="space-y-6 pt-4">
                             {!isOutOfStock && (
-                                <div className="flex items-end gap-4">
+                                <div className="flex items-center gap-6">
                                     <div className="space-y-2">
-                                        <label className="text-xs font-medium text-slate-400">Quantity</label>
+                                        <label className="text-xs font-bold text-muted-foreground tracking-widest uppercase">Quantity</label>
                                         <QuantitySelector
                                             quantity={quantity}
                                             setQuantity={setQuantity}
                                             max={product.stock}
                                         />
                                     </div>
+                                    <div className="flex-1 space-y-1">
+                                        <span className="block text-xs font-bold text-muted-foreground tracking-widest uppercase">Stock Status</span>
+                                        <span className="text-sm font-semibold text-emerald-600 flex items-center gap-2">
+                                            <CheckCircle2 className="h-4 w-4" />
+                                            Available for delivery
+                                        </span>
+                                    </div>
                                 </div>
                             )}
 
-                            <div className="flex gap-4 sticky bottom-0 bg-slate-950/80 backdrop-blur-lg pb-6 -mx-4 px-4 md:relative md:bg-transparent md:backdrop-blur-none md:pb-0 md:mx-0 md:px-0 z-50 pt-4 md:pt-0">
+                            <div className="flex flex-col gap-4">
                                 <Button
                                     size="lg"
-                                    className="flex-1 h-14 text-base md:text-lg rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-[0_0_30px_rgba(37,99,235,0.3)] hover:shadow-[0_0_50px_rgba(37,99,235,0.5)] transition-all duration-300 font-bold"
+                                    className="w-full h-16 text-lg rounded-2xl bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 hover:shadow-primary/40 active:scale-[0.98] transition-all duration-300 font-black uppercase tracking-widest"
                                     disabled={isOutOfStock}
                                     onClick={handleAddToCart}
                                 >
-                                    <ShoppingCart className="mr-2 h-5 w-5" />
+                                    <ShoppingCart className="mr-3 h-6 w-6" />
                                     {isOutOfStock ? "Out of Stock" : "Add to Cart"}
                                 </Button>
-                            </div>
 
-                            {!isOutOfStock && (
-                                <p className="text-xs text-center text-slate-500">
-                                    Secure checkout via QR Payment or Cash on Delivery.
+                                <p className="text-[11px] text-center text-muted-foreground font-medium uppercase tracking-widest">
+                                    Safe & Secure Payments • Cash on Delivery • QR Scan
                                 </p>
-                            )}
+                            </div>
                         </div>
 
                         {/* Trust Badges */}
-                        <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
-                            <div className="flex items-start gap-3">
-                                <div className="h-8 w-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 flex-shrink-0 mt-0.5">
-                                    <Truck className="h-4 w-4" />
+                        <div className="grid md:grid-cols-2 gap-4 pt-8 border-t border-border">
+                            <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-border shadow-sm">
+                                <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+                                    <Truck className="h-5 w-5" />
                                 </div>
                                 <div className="space-y-0.5">
-                                    <span className="block text-sm font-bold text-slate-200">Fast Delivery</span>
-                                    <span className="block text-xs text-slate-500 leading-tight">Within Ring Road Kathmandu</span>
+                                    <span className="block text-sm font-bold text-foreground">Fast Shipping</span>
+                                    <span className="block text-[11px] text-muted-foreground leading-tight uppercase tracking-tight">Across Kathmandu</span>
                                 </div>
                             </div>
-                            <div className="flex items-start gap-3">
-                                <div className="h-8 w-8 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 flex-shrink-0 mt-0.5">
-                                    <ShieldCheck className="h-4 w-4" />
+                            <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-border shadow-sm">
+                                <div className="h-10 w-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 flex-shrink-0">
+                                    <ShieldCheck className="h-5 w-5" />
                                 </div>
                                 <div className="space-y-0.5">
-                                    <span className="block text-sm font-bold text-slate-200">Official Warranty</span>
-                                    <span className="block text-xs text-slate-500 leading-tight">{product.warranty || "Genuine Parts"}</span>
+                                    <span className="block text-sm font-bold text-foreground">6-12 Months</span>
+                                    <span className="block text-[11px] text-muted-foreground leading-tight uppercase tracking-tight">{product.warranty || "Official Warranty"}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Tabs Section */}
-                <div className="mb-20">
-                    <div className="flex items-center gap-8 border-b border-slate-800 mb-8 overflow-x-auto">
+                {/* Detailed Information Section */}
+                <div className="mb-24">
+                    <div className="flex items-center gap-8 border-b border-border mb-8 overflow-x-auto scrollbar-none">
                         {['overview', 'specs'].map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
                                 className={cn(
-                                    "pb-4 text-sm font-bold tracking-wide uppercase transition-all relative whitespace-nowrap",
+                                    "pb-4 text-xs font-bold tracking-widest uppercase transition-all relative whitespace-nowrap",
                                     activeTab === tab
-                                        ? "text-blue-400 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-blue-400"
-                                        : "text-slate-500 hover:text-slate-300"
+                                        ? "text-primary after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary"
+                                        : "text-muted-foreground hover:text-foreground"
                                 )}
                             >
-                                {tab === 'specs' ? 'Specifications' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                {tab === 'specs' ? 'Technical Specifications' : 'Product Overview'}
                             </button>
                         ))}
                     </div>
 
-                    <div className="min-h-[300px]">
+                    <div className="min-h-[400px] bg-white rounded-[2rem] border border-border p-8 md:p-12 shadow-sm">
                         {activeTab === 'overview' && (
-                            <div className="prose prose-invert prose-lg max-w-none text-slate-300">
-                                <p className="leading-relaxed">{product.description}</p>
-                                {/* Future: Render rich text html if stored */}
+                            <div className="prose prose-stone prose-lg max-w-none text-muted-foreground">
+                                <p className="leading-relaxed whitespace-pre-wrap">{product.description}</p>
                             </div>
                         )}
                         {activeTab === 'specs' && (
                             <ProductSpecs product={product} />
                         )}
-                        {/* 
-                        {activeTab === 'reviews' && (
-                            <ProductReviews productId={product.id} />
-                        )}
-                        */}
                     </div>
                 </div>
 
-                {/* Related Products */}
-                <div className="border-t border-slate-800 pt-16">
+                {/* Related Products Section */}
+                <div className="border-t border-border pt-20">
+                    <div className="flex items-center justify-between mb-10">
+                        <div>
+                            <h2 className="text-3xl font-black text-foreground mb-2">You May Also Like</h2>
+                            <p className="text-muted-foreground">Similar products from the {product.category} category</p>
+                        </div>
+                        <Link href={`/shop?category=${product.category}`}>
+                            <Button variant="outline" className="rounded-full border-border hover:bg-muted font-bold text-xs uppercase tracking-widest">
+                                View Full Collection
+                            </Button>
+                        </Link>
+                    </div>
                     <RelatedProducts category={product.category} currentProductId={product.id} />
                 </div>
             </div>
         </div>
     );
 }
+

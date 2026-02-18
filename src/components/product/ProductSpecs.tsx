@@ -62,22 +62,24 @@ export function ProductSpecs({ product }: ProductSpecsProps) {
     const categorizedSpecs = categorizeSpecs(specs);
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-10">
             {Object.entries(categorizedSpecs).map(([category, items]) => (
-                <div key={category} className="border border-slate-800 rounded-lg overflow-hidden">
-                    <div className="bg-slate-900 px-4 py-3 border-b border-slate-800">
-                        <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">{category} Specification</h3>
+                <div key={category} className="border border-border rounded-2xl overflow-hidden shadow-sm bg-white">
+                    <div className="bg-muted/40 px-6 py-4 border-b border-border">
+                        <h3 className="text-xs font-black text-primary uppercase tracking-[0.2em]">{category} Specifications</h3>
                     </div>
                     <Table>
                         <TableBody>
                             {Object.entries(items).map(([key, value]) => (
-                                <TableRow key={key} className="border-b border-slate-800/50 hover:bg-slate-800/20">
-                                    <TableCell className="font-medium text-slate-400 w-1/3 py-3 pl-4">{key}</TableCell>
-                                    <TableCell className="text-slate-200 py-3 pr-4">
+                                <TableRow key={key} className="border-b border-border last:border-0 hover:bg-primary/5 transition-colors">
+                                    <TableCell className="font-bold text-muted-foreground w-1/3 py-4 pl-6 text-[11px] uppercase tracking-wider">{key}</TableCell>
+                                    <TableCell className="text-foreground py-4 pr-6 font-medium">
                                         {typeof value === 'boolean' ? (
-                                            value ? <Badge variant="secondary" className="bg-green-500/10 text-green-400 border-0">Yes</Badge> : <Badge variant="secondary" className="bg-red-500/10 text-red-400 border-0">No</Badge>
-                                        ) : (
                                             value
+                                                ? <Badge variant="secondary" className="bg-emerald-50 text-emerald-600 border-emerald-100 rounded-full text-[10px] px-3 font-bold uppercase tracking-wider">Available</Badge>
+                                                : <Badge variant="secondary" className="bg-red-50 text-red-600 border-red-100 rounded-full text-[10px] px-3 font-bold uppercase tracking-wider">Not Included</Badge>
+                                        ) : (
+                                            <span className="text-sm">{value}</span>
                                         )}
                                     </TableCell>
                                 </TableRow>
@@ -89,3 +91,4 @@ export function ProductSpecs({ product }: ProductSpecsProps) {
         </div>
     );
 }
+

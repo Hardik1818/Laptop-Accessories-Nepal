@@ -28,11 +28,11 @@ export function QuantitySelector({ quantity, setQuantity, min = 1, max = 99 }: Q
     };
 
     return (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center bg-muted/30 rounded-xl border border-border p-1 shadow-sm">
             <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
-                className="h-10 w-10 border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white"
+                className="h-10 w-10 text-muted-foreground hover:bg-white hover:text-primary transition-all rounded-lg"
                 onClick={decrease}
                 disabled={quantity <= min}
             >
@@ -42,14 +42,14 @@ export function QuantitySelector({ quantity, setQuantity, min = 1, max = 99 }: Q
                 type="number"
                 value={quantity}
                 onChange={handleInputChange}
-                className="h-10 w-16 text-center bg-slate-900 border-slate-700 text-slate-100 focus-visible:ring-blue-500"
+                className="h-10 w-14 text-center border-none bg-transparent text-foreground font-bold focus-visible:ring-0 text-base"
                 min={min}
                 max={max}
             />
             <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
-                className="h-10 w-10 border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white"
+                className="h-10 w-10 text-muted-foreground hover:bg-white hover:text-primary transition-all rounded-lg"
                 onClick={increase}
                 disabled={max ? quantity >= max : false}
             >
@@ -58,3 +58,4 @@ export function QuantitySelector({ quantity, setQuantity, min = 1, max = 99 }: Q
         </div>
     );
 }
+
