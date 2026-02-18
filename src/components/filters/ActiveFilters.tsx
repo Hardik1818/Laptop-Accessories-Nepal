@@ -22,21 +22,23 @@ export function ActiveFilters({ filters: initialFilters }: ActiveFiltersProps) {
     if (activeCount === 0) return null;
 
     return (
-        <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">Active:</span>
+        <div className="flex flex-wrap items-center gap-2 mb-6">
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mr-1">Active Filters:</span>
 
             {activeFilters.map((filter) => (
                 <Badge
                     key={`${filter.key}-${filter.value}`}
                     variant="secondary"
-                    className="h-6 pl-2 pr-1 gap-1 bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition-colors"
+                    className="h-7 pl-3 pr-1.5 gap-2 bg-primary/5 text-primary hover:bg-primary/10 border border-primary/20 transition-all rounded-full"
                 >
-                    <span className="text-[10px] font-medium">{filter.label}: <span className="text-white">{filter.displayValue}</span></span>
+                    <span className="text-[10px] font-bold uppercase tracking-tight">
+                        {filter.label}: <span className="text-foreground normal-case font-medium">{filter.displayValue}</span>
+                    </span>
                     <button
                         onClick={() => removeSpecificFilter(filter.key, filter.value)}
-                        className="h-4 w-4 flex items-center justify-center rounded-full hover:bg-slate-600 text-slate-400 hover:text-white transition-colors ml-1"
+                        className="h-4 w-4 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all ml-1"
                     >
-                        <X className="h-3 w-3" />
+                        <X className="h-2.5 w-2.5" />
                     </button>
                 </Badge>
             ))}
@@ -45,7 +47,7 @@ export function ActiveFilters({ filters: initialFilters }: ActiveFiltersProps) {
                 <Button
                     variant="ghost"
                     size="sm"
-                    className="h-6 px-2 text-[10px] text-rose-400 hover:text-white hover:bg-rose-500/20 uppercase font-bold tracking-wider rounded-full ml-1"
+                    className="h-7 px-3 text-[10px] text-destructive hover:text-destructive-foreground hover:bg-destructive uppercase font-bold tracking-wider rounded-full ml-1"
                     onClick={clearFilters}
                 >
                     Clear All

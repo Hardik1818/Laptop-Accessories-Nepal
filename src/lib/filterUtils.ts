@@ -184,7 +184,7 @@ export function getActiveFilters(filters: ProductFilters): ActiveFilter[] {
             key: 'price',
             label: 'Price',
             value: `${min}-${max}`,
-            displayValue: `NPR ${min.toLocaleString()} - ${max === '∞' ? max : `NPR ${max.toLocaleString()}`}`
+            displayValue: `NPR ${min.toLocaleString()} - ${max === '∞' ? max : max.toLocaleString()}`
         });
     }
 

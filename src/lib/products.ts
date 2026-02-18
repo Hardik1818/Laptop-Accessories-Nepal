@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { Product } from '@/types';
-import { ProductFilters, SortOption } from '@/types/filters';
+import { ProductFilters } from '@/types/filters';
 
 interface FetchProductsOptions {
     categories?: string[]; // Filter by category names
@@ -25,189 +25,79 @@ interface ProductResult {
 export async function getProducts(options: FetchProductsOptions): Promise<ProductResult> {
     const { categories, filters = {}, page = 1, limit = 20 } = options;
 
-    // Start base query
-    let query = supabase.from('products').select('*', { count: 'exact' });
+    const applyAllFilters = (q: any) => {
+        let query = q;
 
-    // 1. Category Filter
-    if (categories && categories.length > 0) {
-        query = query.in('category', categories);
-    }
-
-    // 2. Universal Filters
-
-    // Price Range
-    if (filters.priceMin !== undefined) {
-        query = query.gte('price', filters.priceMin);
-    }
-    if (filters.priceMax !== undefined) {
-        query = query.lte('price', filters.priceMax);
-    }
-
-    // Brands (OR logic)
-    if (filters.brands && filters.brands.length > 0) {
-        query = query.in('brand', filters.brands);
-    }
-
-    // Conditions (OR logic)
-    if (filters.conditions && filters.conditions.length > 0) {
-        query = query.in('condition', filters.conditions);
-    }
-
-    // Availability
-    if (filters.inStock) {
-        query = query.gt('stock', 0);
-    }
-
-    // Warranty
-    if (filters.hasWarranty) {
-        query = query.neq('warranty', null).neq('warranty', '');
-    }
-
-    // Rating
-    if (filters.minRating) {
-        query = query.gte('rating', filters.minRating);
-    }
-
-    // Search
-    if (filters.searchQuery) {
-        query = query.ilike('name', `%${filters.searchQuery}%`);
-    }
-
-    // 3. Category Specific Filters (JSONB filtering)
-
-    // Laptop Filters
-    if (filters.laptop) {
-        const laptop = filters.laptop;
-
-        // Processor Type
-        if (laptop.processorTypes && laptop.processorTypes.length > 0) {
-            const orConditions = laptop.processorTypes.map(type => `specifications->>processor_type.ilike.%${type}%`).join(',');
-            query = query.or(orConditions);
+        // 1. Category Filter
+        if (categories && categories.length > 0) {
+            query = query.in('category', categories);
         }
 
-        // Processor Generation
-        if (laptop.processorGenerations && laptop.processorGenerations.length > 0) {
-            const orConditions = laptop.processorGenerations.map(gen => `specifications->>processor_generation.ilike.%${gen}%`).join(',');
-            query = query.or(orConditions);
+        // 2. Universal Filters
+        if (filters.priceMin !== undefined) query = query.gte('price', filters.priceMin);
+        if (filters.priceMax !== undefined) query = query.lte('price', filters.priceMax);
+        if (filters.brands && filters.brands.length > 0) query = query.in('brand', filters.brands);
+        if (filters.conditions && filters.conditions.length > 0) query = query.in('condition', filters.conditions);
+        if (filters.inStock) query = query.gt('stock', 0);
+        if (filters.hasWarranty) query = query.neq('warranty', null).neq('warranty', '');
+        if (filters.minRating) query = query.gte('rating', filters.minRating);
+        if (filters.searchQuery) query = query.ilike('name', `%${filters.searchQuery}%`);
+
+        // 3. Category Specific Filters
+        if (filters.laptop) {
+            const laptop = filters.laptop;
+            if (laptop.processorTypes && laptop.processorTypes.length > 0) {
+                const orConditions = laptop.processorTypes.map(t => `specifications->>processor_type.ilike.%${t}%`).join(',');
+                query = query.or(orConditions);
+            }
+            if (laptop.ramSizes && laptop.ramSizes.length > 0) {
+                const orConditions = laptop.ramSizes.map(s => `specifications->>ram_size.eq.${s}`).join(',');
+                query = query.or(orConditions);
+            }
+            if (laptop.storageTypes && laptop.storageTypes.length > 0) {
+                const orConditions = laptop.storageTypes.map(t => `specifications->>storage_type.ilike.%${t}%`).join(',');
+                query = query.or(orConditions);
+            }
+            if (laptop.screenSizes && laptop.screenSizes.length > 0) {
+                const orConditions = laptop.screenSizes.map(s => `specifications->>screen_size.eq.${s}`).join(',');
+                query = query.or(orConditions);
+            }
         }
 
-        // RAM Size
-        if (laptop.ramSizes && laptop.ramSizes.length > 0) {
-            const orConditions = laptop.ramSizes.map(size => `specifications->>ram_size.eq.${size}`).join(',');
-            query = query.or(orConditions);
+        if (filters.desktop) {
+            const desktop = filters.desktop;
+            if (desktop.cpuTypes && desktop.cpuTypes.length > 0) {
+                const orConditions = desktop.cpuTypes.map(t => `specifications->>cpu_type.ilike.%${t}%`).join(',');
+                query = query.or(orConditions);
+            }
+            if (desktop.ramSizes && desktop.ramSizes.length > 0) {
+                const orConditions = desktop.ramSizes.map(s => `specifications->>ram_size.eq.${s}`).join(',');
+                query = query.or(orConditions);
+            }
+            if (desktop.hasGPU !== undefined) {
+                query = query.eq('specifications->>has_gpu', desktop.hasGPU);
+            }
         }
 
-        // Storage Type
-        if (laptop.storageTypes && laptop.storageTypes.length > 0) {
-            const orConditions = laptop.storageTypes.map(type => `specifications->>storage_type.ilike.%${type}%`).join(',');
-            query = query.or(orConditions);
+        if (filters.component) {
+            const component = filters.component;
+            if (component.ramTypes && component.ramTypes.length > 0) {
+                const orConditions = component.ramTypes.map(t => `specifications->>ram_type.eq.${t}`).join(',');
+                query = query.or(orConditions);
+            }
+            if (component.ssdTypes && component.ssdTypes.length > 0) {
+                const orConditions = component.ssdTypes.map(t => `specifications->>storage_interface.ilike.%${t}%`).join(',');
+                query = query.or(orConditions);
+            }
         }
 
-        // Storage Capacity
-        if (laptop.storageCapacities && laptop.storageCapacities.length > 0) {
-            const orConditions = laptop.storageCapacities.map(size => `specifications->>storage_capacity.eq.${size}`).join(',');
-            query = query.or(orConditions);
-        }
+        return query;
+    };
 
-        // Screen Size
-        if (laptop.screenSizes && laptop.screenSizes.length > 0) {
-            const orConditions = laptop.screenSizes.map(size => `specifications->>screen_size.eq.${size}`).join(',');
-            query = query.or(orConditions);
-        }
+    // 1. Facet Query
+    const baseFacetQuery = supabase.from('products').select('brand, condition, specifications');
+    const { data: facetData } = await applyAllFilters(baseFacetQuery);
 
-        // Graphics Type
-        if (laptop.graphicsTypes && laptop.graphicsTypes.length > 0) {
-            const orConditions = laptop.graphicsTypes.map(type => `specifications->>graphics_type.ilike.%${type}%`).join(',');
-            query = query.or(orConditions);
-        }
-    }
-
-    // Desktop Filters
-    if (filters.desktop) {
-        const desktop = filters.desktop;
-
-        // CPU Type
-        if (desktop.cpuTypes && desktop.cpuTypes.length > 0) {
-            const orConditions = desktop.cpuTypes.map(t => `specifications->>cpu_type.ilike.%${t}%`).join(',');
-            query = query.or(orConditions);
-        }
-
-        // RAM Size
-        if (desktop.ramSizes && desktop.ramSizes.length > 0) {
-            const orConditions = desktop.ramSizes.map(size => `specifications->>ram_size.eq.${size}`).join(',');
-            query = query.or(orConditions);
-        }
-
-        // GPU Presence
-        if (desktop.hasGPU !== undefined) {
-            query = query.eq('specifications->>has_gpu', desktop.hasGPU);
-        }
-    }
-
-    // Component Filters
-    if (filters.component) {
-        const component = filters.component;
-
-        // RAM Types
-        if (component.ramTypes && component.ramTypes.length > 0) {
-            const orConditions = component.ramTypes.map(t => `specifications->>ram_type.eq.${t}`).join(',');
-            query = query.or(orConditions);
-        }
-
-        // SSD Types
-        if (component.ssdTypes && component.ssdTypes.length > 0) {
-            const orConditions = component.ssdTypes.map(type => `specifications->>storage_interface.ilike.%${type}%`).join(',');
-            query = query.or(orConditions);
-        }
-
-        // PSU Certification
-        if (component.psuCertifications && component.psuCertifications.length > 0) {
-            const orConditions = component.psuCertifications.map(cert => `specifications->>psu_rating.ilike.%${cert}%`).join(',');
-            query = query.or(orConditions);
-        }
-    }
-
-    // 4. Sorting
-    if (filters.sortBy) {
-        switch (filters.sortBy) {
-            case 'price-asc':
-                query = query.order('price', { ascending: true });
-                break;
-            case 'price-desc':
-                query = query.order('price', { ascending: false });
-                break;
-            case 'newest':
-                query = query.order('created_at', { ascending: false });
-                break;
-            case 'highest-rated':
-                query = query.order('rating', { ascending: false, nullsFirst: false });
-                break;
-            case 'biggest-discount':
-                query = query.order('created_at', { ascending: false }); // Fallback
-                break;
-            case 'best-selling':
-                query = query.order('created_at', { ascending: false }); // Fallback
-                break;
-            default:
-                query = query.order('created_at', { ascending: false });
-        }
-    } else {
-        query = query.order('created_at', { ascending: false });
-    }
-
-    // 5. Pagination
-    const from = (page - 1) * limit;
-    const to = from + limit - 1;
-    query = query.range(from, to);
-
-    const { data, error, count } = await query;
-
-    if (error) {
-        console.error('Error fetching products:', error);
-        return { products: [], total: 0 };
-    }
-
-    // 6. Calculate Facets
     const facets = {
         brands: {} as Record<string, number>,
         conditions: {} as Record<string, number>,
@@ -217,7 +107,7 @@ export async function getProducts(options: FetchProductsOptions): Promise<Produc
         screenSizes: {} as Record<number, number>,
     };
 
-    data?.forEach((product: any) => {
+    facetData?.forEach((product: any) => {
         if (product.brand) facets.brands[product.brand] = (facets.brands[product.brand] || 0) + 1;
         if (product.condition) facets.conditions[product.condition] = (facets.conditions[product.condition] || 0) + 1;
 
@@ -229,6 +119,33 @@ export async function getProducts(options: FetchProductsOptions): Promise<Produc
             if (specs.screen_size) facets.screenSizes![Number(specs.screen_size)] = (facets.screenSizes![Number(specs.screen_size)] || 0) + 1;
         }
     });
+
+    // 2. Data Query
+    let dataQuery = supabase.from('products').select('*', { count: 'exact' });
+    dataQuery = applyAllFilters(dataQuery);
+
+    // Sorting
+    if (filters.sortBy) {
+        switch (filters.sortBy) {
+            case 'price-asc': dataQuery = dataQuery.order('price', { ascending: true }); break;
+            case 'price-desc': dataQuery = dataQuery.order('price', { ascending: false }); break;
+            case 'newest': dataQuery = dataQuery.order('created_at', { ascending: false }); break;
+            case 'highest-rated': dataQuery = dataQuery.order('rating', { ascending: false }); break;
+            default: dataQuery = dataQuery.order('created_at', { ascending: false });
+        }
+    } else {
+        dataQuery = dataQuery.order('created_at', { ascending: false });
+    }
+
+    // Pagination
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+    const { data, error, count } = await dataQuery.range(from, to);
+
+    if (error) {
+        console.error('Error fetching products:', error);
+        return { products: [], total: 0 };
+    }
 
     return {
         products: data as Product[],

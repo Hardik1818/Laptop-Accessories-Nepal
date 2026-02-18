@@ -48,32 +48,32 @@ export function LaptopFilters({
 
     return (
         <div className="space-y-4 border-t border-border pt-4">
-            <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">Laptop Specs</h3>
+            <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2 px-1">Laptop Specifications</h3>
 
             {/* Processor */}
             <div className="border-b border-border pb-4">
                 <Collapsible open={openSections.processor} onOpenChange={() => toggleSection('processor')}>
                     <div className="flex items-center justify-between w-full mb-2">
-                        <span className="text-xs font-medium text-muted-foreground">Processor</span>
+                        <span className="text-xs font-bold text-foreground">Processor</span>
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-muted rounded-full">
-                                {openSections.processor ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
+                            <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-muted rounded-full">
+                                {openSections.processor ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
                             </Button>
                         </CollapsibleTrigger>
                     </div>
                     <CollapsibleContent>
                         <div className="grid grid-cols-2 gap-2">
                             {processorOptions.map((proc) => (
-                                <div key={proc} className="flex items-center space-x-2">
+                                <div key={proc} className="flex items-center space-x-2 group cursor-pointer" onClick={() => onProcessorChange(proc)}>
                                     <Checkbox
                                         id={`proc-${proc}`}
                                         checked={filters.processorTypes?.includes(proc as any)}
-                                        onCheckedChange={() => onProcessorChange(proc)}
-                                        className="h-3.5 w-3.5 rounded-sm border-input"
+                                        onCheckedChange={() => { }}
+                                        className="h-3.5 w-3.5 rounded-sm border-input data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                                     />
-                                    <Label htmlFor={`proc-${proc}`} className="text-xs text-muted-foreground cursor-pointer capitalize">
+                                    <Label htmlFor={`proc-${proc}`} className="text-xs text-muted-foreground group-hover:text-foreground cursor-pointer capitalize">
                                         {proc.replace('-', ' ')}
-                                        {counts?.processorTypes?.[proc] !== undefined && <span className="text-muted-foreground/70 ml-1">({counts.processorTypes[proc]})</span>}
+                                        {counts?.processorTypes?.[proc] !== undefined && <span className="text-primary font-bold ml-1 text-[10px]">({counts.processorTypes[proc]})</span>}
                                     </Label>
                                 </div>
                             ))}
@@ -86,24 +86,24 @@ export function LaptopFilters({
             <div className="border-b border-border pb-4">
                 <Collapsible open={openSections.ram} onOpenChange={() => toggleSection('ram')}>
                     <div className="flex items-center justify-between w-full mb-2">
-                        <span className="text-xs font-medium text-muted-foreground">RAM</span>
+                        <span className="text-xs font-bold text-foreground">RAM Capacity</span>
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-muted rounded-full">
-                                {openSections.ram ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
+                            <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-muted rounded-full">
+                                {openSections.ram ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
                             </Button>
                         </CollapsibleTrigger>
                     </div>
                     <CollapsibleContent>
                         <div className="grid grid-cols-3 gap-2">
                             {ramOptions.map((ram) => (
-                                <div key={ram} className="flex items-center space-x-2">
+                                <div key={ram} className="flex items-center space-x-2 group cursor-pointer" onClick={() => onRamChange(ram)}>
                                     <Checkbox
                                         id={`ram-${ram}`}
                                         checked={filters.ramSizes?.includes(ram)}
-                                        onCheckedChange={() => onRamChange(ram)}
-                                        className="h-3.5 w-3.5 rounded-sm border-input"
+                                        onCheckedChange={() => { }}
+                                        className="h-3.5 w-3.5 rounded-sm border-input data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                                     />
-                                    <Label htmlFor={`ram-${ram}`} className="text-xs text-muted-foreground cursor-pointer">
+                                    <Label htmlFor={`ram-${ram}`} className="text-xs text-muted-foreground group-hover:text-foreground cursor-pointer">
                                         {ram}GB
                                     </Label>
                                 </div>
@@ -117,24 +117,24 @@ export function LaptopFilters({
             <div className="border-b border-border pb-4">
                 <Collapsible open={openSections.storage} onOpenChange={() => toggleSection('storage')}>
                     <div className="flex items-center justify-between w-full mb-2">
-                        <span className="text-xs font-medium text-muted-foreground">Storage Type</span>
+                        <span className="text-xs font-bold text-foreground">Storage Type</span>
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-muted rounded-full">
-                                {openSections.storage ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
+                            <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-muted rounded-full">
+                                {openSections.storage ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
                             </Button>
                         </CollapsibleTrigger>
                     </div>
                     <CollapsibleContent>
-                        <div className="space-y-1">
+                        <div className="space-y-1.5">
                             {storageOptions.map((type) => (
-                                <div key={type} className="flex items-center space-x-2">
+                                <div key={type} className="flex items-center space-x-2 group cursor-pointer" onClick={() => onStorageChange(type as any)}>
                                     <Checkbox
                                         id={`storage-${type}`}
                                         checked={filters.storageTypes?.includes(type as any)}
-                                        onCheckedChange={() => onStorageChange(type as any)}
-                                        className="h-3.5 w-3.5 rounded-sm border-input"
+                                        onCheckedChange={() => { }}
+                                        className="h-3.5 w-3.5 rounded-sm border-input data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                                     />
-                                    <Label htmlFor={`storage-${type}`} className="text-xs text-muted-foreground cursor-pointer uppercase">
+                                    <Label htmlFor={`storage-${type}`} className="text-xs text-muted-foreground group-hover:text-foreground cursor-pointer uppercase">
                                         {type}
                                     </Label>
                                 </div>
@@ -148,9 +148,9 @@ export function LaptopFilters({
             <div className="pb-2">
                 <Collapsible open={openSections.screen} onOpenChange={() => toggleSection('screen')}>
                     <div className="flex items-center justify-between w-full mb-2">
-                        <span className="text-xs font-medium text-muted-foreground">Screen Size</span>
+                        <span className="text-xs font-bold text-foreground">Display Size</span>
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-muted rounded-full">
+                            <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-muted rounded-full">
                                 {openSections.screen ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
                             </Button>
                         </CollapsibleTrigger>
@@ -158,14 +158,14 @@ export function LaptopFilters({
                     <CollapsibleContent>
                         <div className="grid grid-cols-2 gap-2">
                             {screenOptions.map((size) => (
-                                <div key={size} className="flex items-center space-x-2">
+                                <div key={size} className="flex items-center space-x-2 group cursor-pointer" onClick={() => onScreenChange(size)}>
                                     <Checkbox
                                         id={`screen-${size}`}
                                         checked={filters.screenSizes?.includes(size)}
-                                        onCheckedChange={() => onScreenChange(size)}
-                                        className="h-3.5 w-3.5 rounded-sm border-input"
+                                        onCheckedChange={() => { }}
+                                        className="h-3.5 w-3.5 rounded-sm border-input data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                                     />
-                                    <Label htmlFor={`screen-${size}`} className="text-xs text-muted-foreground cursor-pointer">
+                                    <Label htmlFor={`screen-${size}`} className="text-xs text-muted-foreground group-hover:text-foreground cursor-pointer">
                                         {size}"
                                     </Label>
                                 </div>

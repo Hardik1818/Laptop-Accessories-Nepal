@@ -65,8 +65,8 @@ export function PriceRangeFilter({
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
-                <Label className="text-sm font-medium text-slate-200">Price Range</Label>
-                <span className="text-xs text-slate-400">
+                <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Range</Label>
+                <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
                     NPR {range[0].toLocaleString()} - {range[1].toLocaleString()}
                 </span>
             </div>
@@ -84,24 +84,24 @@ export function PriceRangeFilter({
 
             <div className="flex items-center gap-2">
                 <div className="relative flex-1">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">NPR</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-muted-foreground">NPR</span>
                     <Input
                         type="text"
                         value={range[0]}
                         onChange={(e) => handleInputChange(0, e.target.value)}
                         onBlur={handleInputBlur}
-                        className="pl-9 h-8 text-xs bg-slate-900 border-slate-800 focus:border-blue-500"
+                        className="pl-11 h-9 text-xs bg-muted/20 border-border focus-visible:ring-primary/20 transition-all"
                     />
                 </div>
-                <span className="text-slate-500">-</span>
+                <span className="text-muted-foreground/50">—</span>
                 <div className="relative flex-1">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">NPR</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-muted-foreground">NPR</span>
                     <Input
                         type="text"
                         value={range[1]}
                         onChange={(e) => handleInputChange(1, e.target.value)}
                         onBlur={handleInputBlur}
-                        className="pl-9 h-8 text-xs bg-slate-900 border-slate-800 focus:border-blue-500"
+                        className="pl-11 h-9 text-xs bg-muted/20 border-border focus-visible:ring-primary/20 transition-all"
                     />
                 </div>
             </div>

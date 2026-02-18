@@ -25,8 +25,8 @@ export function useFilters(initialFilters: ProductFilters = {}) {
 
     // Sync state when URL changes
     useEffect(() => {
-        const urlFilters = queryParamsToFilters(searchParams);
-        setFilters(prev => ({ ...prev, ...urlFilters }));
+        const urlFilters = queryParamsToFilters(searchParams as any);
+        setFilters(urlFilters);
     }, [searchParams]);
 
     // Sync filters to URL

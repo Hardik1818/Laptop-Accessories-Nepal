@@ -77,7 +77,7 @@ export function FilterSidebar({
                 <h2 className="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
                     Filters
                     {hasActiveFilters && (
-                        <Badge variant="secondary" className="h-5 px-1.5 bg-primary text-primary-foreground text-[10px] rounded-full">
+                        <Badge variant="secondary" className="h-5 px-2 bg-primary/10 text-primary border-none text-[10px] font-bold rounded-full">
                             {(filters.brands?.length || 0) + (filters.conditions?.length || 0) + (filters.priceMin || filters.priceMax ? 1 : 0)}
                         </Badge>
                     )}
@@ -86,7 +86,7 @@ export function FilterSidebar({
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="text-[10px] text-destructive hover:text-destructive-foreground hover:bg-destructive/10 h-6 px-2 gap-1 uppercase font-bold tracking-wider"
+                        className="text-[10px] text-destructive hover:text-white hover:bg-destructive h-6 px-2 gap-1 uppercase font-bold tracking-wider rounded-full transition-all"
                         onClick={handleClearAll}
                     >
                         <RotateCcw className="h-3 w-3" />
@@ -99,8 +99,8 @@ export function FilterSidebar({
                 {/* Price Range */}
                 <div className="border-b border-border py-4">
                     <Collapsible open={openSections.price} onOpenChange={() => toggleSection('price')}>
-                        <div className="flex items-center justify-between w-full mb-4">
-                            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Price Range</span>
+                        <div className="flex items-center justify-between w-full mb-4 group cursor-pointer" onClick={() => toggleSection('price')}>
+                            <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors">Price Range</span>
                             <CollapsibleTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-muted rounded-full">
                                     {openSections.price ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
@@ -122,11 +122,11 @@ export function FilterSidebar({
                 {/* Brand */}
                 <div className="border-b border-border py-4">
                     <Collapsible open={openSections.brand} onOpenChange={() => toggleSection('brand')}>
-                        <div className="flex items-center justify-between w-full mb-4">
+                        <div className="flex items-center justify-between w-full mb-4 group cursor-pointer" onClick={() => toggleSection('brand')}>
                             <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Brand</span>
+                                <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors">Brand</span>
                                 {filters.brands && filters.brands.length > 0 && (
-                                    <span className="bg-primary text-[10px] text-primary-foreground font-bold px-1.5 py-0.5 rounded-full">
+                                    <span className="bg-primary/10 text-[10px] text-primary font-bold px-2 py-0.5 rounded-full">
                                         {filters.brands.length}
                                     </span>
                                 )}
@@ -150,11 +150,11 @@ export function FilterSidebar({
                 {/* Condition */}
                 <div className="border-b border-border py-4">
                     <Collapsible open={openSections.condition} onOpenChange={() => toggleSection('condition')}>
-                        <div className="flex items-center justify-between w-full mb-4">
+                        <div className="flex items-center justify-between w-full mb-4 group cursor-pointer" onClick={() => toggleSection('condition')}>
                             <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Condition</span>
+                                <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors">Condition</span>
                                 {filters.conditions && filters.conditions.length > 0 && (
-                                    <span className="bg-primary text-[10px] text-primary-foreground font-bold px-1.5 py-0.5 rounded-full">
+                                    <span className="bg-primary/10 text-[10px] text-primary font-bold px-2 py-0.5 rounded-full">
                                         {filters.conditions.length}
                                     </span>
                                 )}

@@ -16,32 +16,40 @@ export function ConditionFilter({
     onChange,
 }: ConditionFilterProps) {
     return (
-        <div className="space-y-2">
+        <div className="space-y-1.5">
             {conditions.map((option) => (
-                <div key={option.value} className="flex items-center space-x-2 w-full">
+                <div
+                    key={option.value}
+                    className="flex items-center space-x-3 w-full group cursor-pointer hover:bg-muted/30 p-1.5 rounded-md transition-colors"
+                    onClick={() => onChange(option.value)}
+                >
                     <Checkbox
                         id={`condition-${option.value}`}
                         checked={selectedConditions.includes(option.value)}
-                        onCheckedChange={() => onChange(option.value)}
-                        className="rounded-sm border-slate-600 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                        onCheckedChange={() => { }}
+                        className="h-4 w-4 rounded border-input data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                     />
-                    <Label
-                        htmlFor={`condition-${option.value}`}
-                        className="text-sm font-normal text-slate-300 flex-1 cursor-pointer flex justify-between items-center"
-                    >
-                        <span>{option.label}</span>
-                        <div className="flex items-center gap-2">
-                            <Badge variant="outline" className={`text-[10px] px-1.5 py-0 rounded-sm border-slate-700
-                    ${option.value === 'new' ? 'text-emerald-400 bg-emerald-950/20' :
-                                    option.value === 'refurbished' ? 'text-amber-400 bg-amber-950/20' :
-                                        'text-slate-400 bg-slate-800/50'
+                    <div className="flex-1 flex items-center justify-between min-w-0">
+                        <Label
+                            htmlFor={`condition-${option.value}`}
+                            className="text-xs font-medium text-foreground cursor-pointer capitalize"
+                        >
+                            {option.label}
+                        </Label>
+                        <div className="flex items-center gap-2 shrink-0">
+                            <Badge variant="outline" className={`text-[9px] px-1.5 py-0 rounded-full border-none font-bold uppercase tracking-tighter
+                    ${option.value === 'new' ? 'text-emerald-600 bg-emerald-100' :
+                                    option.value === 'refurbished' ? 'text-amber-600 bg-amber-100' :
+                                        'text-slate-500 bg-slate-100'
                                 }
                 `}>
-                                {option.value.toUpperCase()}
+                                {option.value}
                             </Badge>
-                            <span className="text-xs text-slate-500">({option.count})</span>
+                            <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded text-muted-foreground">
+                                {option.count}
+                            </span>
                         </div>
-                    </Label>
+                    </div>
                 </div>
             ))}
         </div>
