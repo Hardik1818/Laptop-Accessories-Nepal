@@ -73,11 +73,11 @@ export function FilterSidebar({
 
     return (
         <div className={cn("w-full lg:w-64 flex-shrink-0 space-y-6", className)}>
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-                <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <div className="flex items-center justify-between pb-4 border-b border-border">
+                <h2 className="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
                     Filters
                     {hasActiveFilters && (
-                        <Badge variant="secondary" className="h-5 px-1.5 bg-blue-600 text-white text-[10px] rounded-full">
+                        <Badge variant="secondary" className="h-5 px-1.5 bg-primary text-primary-foreground text-[10px] rounded-full">
                             {(filters.brands?.length || 0) + (filters.conditions?.length || 0) + (filters.priceMin || filters.priceMax ? 1 : 0)}
                         </Badge>
                     )}
@@ -86,7 +86,7 @@ export function FilterSidebar({
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="text-[10px] text-rose-400 hover:text-white hover:bg-rose-500/20 h-6 px-2 gap-1 uppercase font-bold tracking-wider"
+                        className="text-[10px] text-destructive hover:text-destructive-foreground hover:bg-destructive/10 h-6 px-2 gap-1 uppercase font-bold tracking-wider"
                         onClick={handleClearAll}
                     >
                         <RotateCcw className="h-3 w-3" />
@@ -97,13 +97,13 @@ export function FilterSidebar({
 
             <div className="space-y-1">
                 {/* Price Range */}
-                <div className="border-b border-slate-800/50 py-4">
+                <div className="border-b border-border py-4">
                     <Collapsible open={openSections.price} onOpenChange={() => toggleSection('price')}>
                         <div className="flex items-center justify-between w-full mb-4">
-                            <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Price Range</span>
+                            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Price Range</span>
                             <CollapsibleTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-slate-800/50 rounded-full">
-                                    {openSections.price ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
+                                <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-muted rounded-full">
+                                    {openSections.price ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
                                 </Button>
                             </CollapsibleTrigger>
                         </div>
@@ -120,20 +120,20 @@ export function FilterSidebar({
                 </div>
 
                 {/* Brand */}
-                <div className="border-b border-slate-800/50 py-4">
+                <div className="border-b border-border py-4">
                     <Collapsible open={openSections.brand} onOpenChange={() => toggleSection('brand')}>
                         <div className="flex items-center justify-between w-full mb-4">
                             <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Brand</span>
+                                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Brand</span>
                                 {filters.brands && filters.brands.length > 0 && (
-                                    <span className="bg-blue-600 text-[10px] text-white font-bold px-1.5 py-0.5 rounded-full">
+                                    <span className="bg-primary text-[10px] text-primary-foreground font-bold px-1.5 py-0.5 rounded-full">
                                         {filters.brands.length}
                                     </span>
                                 )}
                             </div>
                             <CollapsibleTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-slate-800/50 rounded-full">
-                                    {openSections.brand ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
+                                <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-muted rounded-full">
+                                    {openSections.brand ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
                                 </Button>
                             </CollapsibleTrigger>
                         </div>
@@ -148,20 +148,20 @@ export function FilterSidebar({
                 </div>
 
                 {/* Condition */}
-                <div className="border-b border-slate-800/50 py-4">
+                <div className="border-b border-border py-4">
                     <Collapsible open={openSections.condition} onOpenChange={() => toggleSection('condition')}>
                         <div className="flex items-center justify-between w-full mb-4">
                             <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Condition</span>
+                                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Condition</span>
                                 {filters.conditions && filters.conditions.length > 0 && (
-                                    <span className="bg-blue-600 text-[10px] text-white font-bold px-1.5 py-0.5 rounded-full">
+                                    <span className="bg-primary text-[10px] text-primary-foreground font-bold px-1.5 py-0.5 rounded-full">
                                         {filters.conditions.length}
                                     </span>
                                 )}
                             </div>
                             <CollapsibleTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-slate-800/50 rounded-full">
-                                    {openSections.condition ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
+                                <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-muted rounded-full">
+                                    {openSections.condition ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
                                 </Button>
                             </CollapsibleTrigger>
                         </div>
@@ -177,7 +177,7 @@ export function FilterSidebar({
 
                 {/* Category Specific Filters */}
                 {categoryType === 'laptop' && (
-                    <div className="border-b border-slate-800/50 py-4">
+                    <div className="border-b border-border py-4">
                         <LaptopFilters
                             filters={filters.laptop || {}}
                             onProcessorChange={toggleProcessorType}
@@ -190,7 +190,7 @@ export function FilterSidebar({
 
                 {/* Desktop Filters */}
                 {categoryType === 'desktop' && (
-                    <div className="border-b border-slate-800/50 py-4">
+                    <div className="border-b border-border py-4">
                         <DesktopFilters
                             filters={filters.desktop || {}}
                             onCpuChange={toggleDesktopCpuType}

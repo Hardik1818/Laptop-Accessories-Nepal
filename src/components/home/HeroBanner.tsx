@@ -22,7 +22,7 @@ export function HeroBanner() {
                 <>
                     LAPTOP <br />
                     ACCESSORIES <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-orange-400 to-accent">
                         NEPAL
                     </span>
                 </>
@@ -35,42 +35,42 @@ export function HeroBanner() {
 
 
     return (
-        <div className="relative w-full pt-12 pb-20 md:py-32 overflow-hidden bg-slate-950">
+        <div className="relative w-full pt-12 pb-20 md:py-32 overflow-hidden bg-background">
             {/* Background Grid Pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,theme(colors.border)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.border)_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20" />
 
             {/* Glowing Orbs for Depth */}
-            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-accent/20 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="container relative z-10 mx-auto px-4 md:px-6">
                 <div className="grid gap-10 lg:grid-cols-2 items-center">
 
                     {/* Left Column: Text Content */}
                     <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8">
-                        <div className="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs md:text-sm text-blue-300 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-4 duration-700">
-                            <span className="flex h-2 w-2 rounded-full bg-blue-500 mr-2.5 animate-pulse"></span>
+                        <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs md:text-sm text-primary backdrop-blur-xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+                            <span className="flex h-2 w-2 rounded-full bg-primary mr-2.5 animate-pulse"></span>
                             Restocked & Ready
                         </div>
 
                         <div className="space-y-4">
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter text-white leading-[0.9] uppercase animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter text-foreground leading-[0.9] uppercase animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
                                 {renderTitle(title)}
                             </h1>
 
-                            <p className="text-base md:text-lg text-slate-400 max-w-xl leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 px-4 md:px-0">
+                            <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 px-4 md:px-0">
                                 {subtitle}
                             </p>
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
                             <Link href="/shop" className="w-full sm:w-auto">
-                                <Button size="lg" className="w-full h-14 px-10 rounded-2xl bg-white text-black hover:bg-white/90 font-black tracking-tight shadow-xl transition-all hover:scale-105 active:scale-95 text-base shadow-white/10 group">
+                                <Button size="lg" className="w-full h-14 px-10 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 font-black tracking-tight shadow-xl transition-all hover:scale-105 active:scale-95 text-base shadow-primary/20 group">
                                     SHOP NOW <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                             </Link>
                             <Link href="/about" className="w-full sm:w-auto">
-                                <Button size="lg" variant="outline" className="w-full h-14 px-8 rounded-2xl border-slate-700 text-slate-300 hover:bg-white/10 hover:text-white transition-all text-base backdrop-blur-md">
+                                <Button size="lg" variant="outline" className="w-full h-14 px-8 rounded-2xl border-border text-muted-foreground hover:bg-muted hover:text-foreground transition-all text-base backdrop-blur-md">
                                     DISCOVER MORE
                                 </Button>
                             </Link>
@@ -91,9 +91,9 @@ export function HeroBanner() {
                     {/* Right Column: Visual Showcase */}
                     <div className="relative mx-auto w-full max-w-[450px] lg:max-w-none px-4 md:px-0">
                         {/* Glow Behind Image */}
-                        <div className="absolute -inset-4 bg-gradient-to-tr from-blue-500/30 to-purple-600/30 rounded-[2.5rem] blur-2xl opacity-40 animate-pulse" />
+                        <div className="absolute -inset-4 bg-gradient-to-tr from-primary/30 to-accent/30 rounded-[2.5rem] blur-2xl opacity-40 animate-pulse" />
 
-                        <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-slate-900 shadow-2xl ring-1 ring-white/20 aspect-[4/5] sm:aspect-[16/11]">
+                        <div className="relative rounded-[2.5rem] overflow-hidden border border-border bg-card shadow-2xl ring-1 ring-border aspect-[4/5] sm:aspect-[16/11]">
                             <Image
                                 src={image}
                                 alt="Laptop Accessories Nepal Store"
@@ -104,7 +104,7 @@ export function HeroBanner() {
                         </div>
 
                         {/* Mobile Floating Indicator */}
-                        <div className="sm:hidden absolute -bottom-2 -right-2 bg-blue-600 p-3 rounded-2xl shadow-xl text-white font-bold text-xs ring-4 ring-slate-950 animate-bounce">
+                        <div className="sm:hidden absolute -bottom-2 -right-2 bg-primary p-3 rounded-2xl shadow-xl text-primary-foreground font-bold text-xs ring-4 ring-slate-950 animate-bounce">
                             Top Rated ⭐️
                         </div>
                     </div>

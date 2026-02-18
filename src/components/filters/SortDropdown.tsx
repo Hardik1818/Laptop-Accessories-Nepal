@@ -17,12 +17,12 @@ interface SortDropdownProps {
 export function SortDropdown({ value, onChange }: SortDropdownProps) {
     return (
         <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-slate-400">Sort by:</span>
+            <span className="text-sm font-medium text-muted-foreground">Sort by:</span>
             <Select value={value} onValueChange={(val) => onChange(val as SortOption)}>
-                <SelectTrigger className="w-[180px] h-9 bg-slate-900 border-slate-800 text-slate-300">
+                <SelectTrigger className="w-[180px] h-9 bg-background border-input text-foreground">
                     <SelectValue placeholder="Select sorting" />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-950 border-slate-800 text-slate-300">
+                <SelectContent className="bg-popover border-border text-popover-foreground">
                     <SelectItem value="newest">Newest Arrivals</SelectItem>
                     <SelectItem value="price-asc">Price: Low to High</SelectItem>
                     <SelectItem value="price-desc">Price: High to Low</SelectItem>

@@ -201,7 +201,7 @@ export function getNewOrderAlertEmailHTML(data: OrderEmailData): string {
     </div>
     
     <div style="text-align: center; margin-top: 20px;">
-      <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/admin/orders" 
+      <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/adminlogin/orders" 
          style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold;">
         View in Admin Panel
       </a>

@@ -22,7 +22,7 @@ export default function AdminLoginPage() {
         const result = await loginAction(formData);
 
         if (result.success) {
-            router.push("/admin/dashboard");
+            router.push("/adminlogin/dashboard");
         } else {
             setError(result.message || "Login failed");
             setLoading(false);

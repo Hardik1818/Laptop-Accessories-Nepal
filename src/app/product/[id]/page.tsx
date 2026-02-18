@@ -203,9 +203,10 @@ export default function ProductDetailPage() {
                                 <span className="text-3xl md:text-4xl font-bold text-blue-400">
                                     NPR {product.price.toLocaleString()}
                                 </span>
-                                {product.stock > 0 && product.stock < 5 && (
-                                    <span className="text-sm text-red-400 font-medium animate-pulse">
-                                        Only {product.stock} left!
+                                {product.stock > 0 && (
+                                    <span className="text-sm text-green-400 font-bold flex items-center gap-1.5 animate-in fade-in">
+                                        <div className="h-2 w-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)] animate-pulse" />
+                                        In Stock
                                     </span>
                                 )}
                             </div>

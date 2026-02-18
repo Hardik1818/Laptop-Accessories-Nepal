@@ -10,7 +10,7 @@ interface CategoryNavClientProps {
 
 export function CategoryNavClient({ categories }: CategoryNavClientProps) {
     const pathname = usePathname();
-    const isAdminRoute = pathname.startsWith('/admin');
+    const isAdminRoute = pathname.startsWith('/adminlogin');
 
     if (isAdminRoute) return null;
 

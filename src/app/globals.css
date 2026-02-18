@@ -6,99 +6,123 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
   --font-sans: var(--font-inter);
+
+  --radius: 0.5rem;
 }
 
+/* Premium Warm Orange Theme (Stone/Orange) */
 :root {
-  /* Light Mode (Default) */
-  --background: #F8FAFC;
-  /* slate-50 */
-  --foreground: #1E293B;
-  /* slate-800 */
+  --background: #fafaf9;
+  /* Stone 50 - Premium Warm White */
+  --foreground: #1c1917;
+  /* Stone 900 - Warm Dark Grey */
 
-  /* Custom Accent Colors (mapped to usage in components) */
-  --primary: #3B82F6;
-  /* blue-500 */
-  --primary-foreground: #FFFFFF;
+  --card: #ffffff;
+  --card-foreground: #1c1917;
 
-  --secondary: #E2E8F0;
-  /* slate-200 */
-  --secondary-foreground: #1E293B;
+  --popover: #ffffff;
+  --popover-foreground: #1c1917;
 
-  --destructive: #EF4444;
-  /* red-500 */
-  --destructive-foreground: #FFFFFF;
+  --primary: #ea580c;
+  /* Orange 600 - Rich Deep Orange */
+  --primary-foreground: #ffffff;
 
-  --muted: #F1F5F9;
-  /* slate-100 */
-  --muted-foreground: #64748B;
-  /* slate-500 */
+  --secondary: #f5f5f4;
+  /* Stone 100 */
+  --secondary-foreground: #1c1917;
 
-  --card: #FFFFFF;
-  --card-foreground: #1E293B;
+  --muted: #f5f5f4;
+  /* Stone 100 */
+  --muted-foreground: #78716c;
+  /* Stone 500 */
 
-  --border: #E2E8F0;
-  /* slate-200 */
+  --accent: #fff7ed;
+  /* Orange 50 */
+  --accent-foreground: #9a3412;
+  /* Orange 800 */
+
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+
+  --border: #e7e5e4;
+  /* Stone 200 */
+  --input: #e7e5e4;
+  --ring: #ea580c;
+  /* Orange 600 */
+
+  --radius: 0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark Mode */
-    --background: #0F172A;
-    /* slate-900 */
-    --foreground: #F1F5F9;
-    /* slate-100 */
+/* Dark Mode (Warm Charcoal) */
+.dark {
+  --background: #0c0a09;
+  /* Stone 950 */
+  --foreground: #fafaf9;
+  /* Stone 50 */
 
-    --primary: #3B82F6;
-    /* blue-500 */
-    --primary-foreground: #FFFFFF;
+  --card: #1c1917;
+  /* Stone 900 */
+  --card-foreground: #fafaf9;
 
-    --secondary: #1E293B;
-    /* slate-800 */
-    --secondary-foreground: #F1F5F9;
+  --popover: #1c1917;
+  --popover-foreground: #fafaf9;
 
-    --destructive: #EF4444;
-    /* red-500 */
-    --destructive-foreground: #FFFFFF;
+  --primary: #ea580c;
+  /* Orange 600 */
+  --primary-foreground: #ffffff;
 
-    --muted: #1E293B;
-    /* slate-800 */
-    --muted-foreground: #94A3B8;
-    /* slate-400 */
+  --secondary: #292524;
+  /* Stone 800 */
+  --secondary-foreground: #fafaf9;
 
-    --card: #1E293B;
-    /* slate-800 */
-    --card-foreground: #F1F5F9;
+  --muted: #292524;
+  /* Stone 800 */
+  --muted-foreground: #a8a29e;
+  /* Stone 400 */
 
-    --border: #334155;
-    /* slate-700 */
-  }
-}
+  --accent: #292524;
+  --accent-foreground: #fafaf9;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-}
+  --destructive: #7f1d1d;
+  --destructive-foreground: #fafafa;
 
-@keyframes loading {
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX(400%);
-  }
-}
-
-.animate-loading {
-  animation: loading 2s infinite linear;
+  --border: #292524;
+  --input: #292524;
+  --ring: #ea580c;
 }
 
 @layer utilities {
   .bg-admin-radial {
-    background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.05), transparent 40%),
-      radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.05), transparent 40%),
-      #020617;
+    background: radial-gradient(circle at top right, rgba(234, 88, 12, 0.1), transparent 40%),
+      radial-gradient(circle at bottom left, rgba(234, 88, 12, 0.05), transparent 40%),
+      #fafaf9;
+  }
+
+  /* Text Gradient Utility - Premium Orange/Amber */
+  .text-gradient-premium {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-amber-500;
   }
 }

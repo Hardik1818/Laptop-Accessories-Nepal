@@ -15,8 +15,8 @@ export function ProductRail({ title, products }: ProductRailProps) {
     return (
         <div className="space-y-4 py-6">
             <div className="flex items-center justify-between px-6 md:px-12">
-                <h2 className="text-2xl font-bold text-white tracking-tight">{title}</h2>
-                <Link href="/shop" className="text-sm font-medium text-slate-400 hover:text-white flex items-center transition-colors">
+                <h2 className="text-2xl font-bold text-foreground tracking-tight">{title}</h2>
+                <Link href="/shop" className="text-sm font-medium text-muted-foreground hover:text-primary flex items-center transition-colors">
                     View All <ChevronRight className="h-4 w-4 ml-1" />
                 </Link>
             </div>

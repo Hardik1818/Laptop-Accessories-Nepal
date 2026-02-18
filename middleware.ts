@@ -4,25 +4,25 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
 
-    // Protect all admin sub-routes (e.g., /admin/dashboard, /admin/orders, etc.)
-    // But allow the /admin (login) page itself.
-    if (pathname.startsWith('/admin') && pathname !== '/admin') {
+    // Protect all admin sub-routes (e.g., /adminlogin/dashboard, /adminlogin/orders, etc.)
+    // But allow the /adminlogin (login) page itself.
+    if (pathname.startsWith('/adminlogin') && pathname !== '/adminlogin') {
         const adminSession = request.cookies.get('admin_session')
         const adminPassword = (process.env.ADMIN_PASSWORD || 'admin123').trim()
 
         if (!adminSession || adminSession.value !== adminPassword) {
-            return NextResponse.redirect(new URL('/admin', request.url))
+            return NextResponse.redirect(new URL('/adminlogin', request.url))
         }
     }
 
-    // Optional: If user is already authenticated and tries to visit /admin (login),
+    // Optional: If user is already authenticated and tries to visit /adminlogin (login),
     // redirect them to the dashboard.
-    if (pathname === '/admin') {
+    if (pathname === '/adminlogin') {
         const adminSession = request.cookies.get('admin_session')
         const adminPassword = (process.env.ADMIN_PASSWORD || 'admin123').trim()
 
         if (adminSession?.value === adminPassword) {
-            return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+            return NextResponse.redirect(new URL('/adminlogin/dashboard', request.url))
         }
     }
 
@@ -30,5 +30,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/admin/:path*'],
+    matcher: ['/adminlogin/:path*'],
 }

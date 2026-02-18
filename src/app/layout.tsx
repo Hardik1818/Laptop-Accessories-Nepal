@@ -23,15 +23,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.variable} antialiased bg-[#0e0e0e] text-slate-100 min-h-screen flex flex-col`}>
+    <html lang="en">
+      <body
+        className={`${inter.variable} antialiased bg-background text-foreground min-h-screen flex flex-col`}
+        suppressHydrationWarning
+      >
         <SettingsProvider>
           <CartProvider>
             <NavbarWrapper />
             <ClientLayout>
               {children}
             </ClientLayout>
-            <Toaster position="bottom-right" theme="dark" richColors />
+            <Toaster position="bottom-right" theme="light" richColors />
           </CartProvider>
         </SettingsProvider>
       </body>

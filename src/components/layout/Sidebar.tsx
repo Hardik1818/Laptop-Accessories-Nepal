@@ -35,20 +35,20 @@ const CATEGORIES = [
 const INFO_LINKS = [
     { icon: Info, label: "About Us", href: "/about" },
     { icon: Phone, label: "Contact", href: "/contact" },
-    { icon: Settings, label: "Admin Panel", href: "/admin" },
+    { icon: Settings, label: "Admin Panel", href: "/adminlogin" },
 ];
 
 export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="hidden md:flex w-64 flex-col fixed inset-y-0 left-0 z-50 bg-[#0a0a0a] border-r border-white/10 text-slate-300">
+        <div className="hidden md:flex w-64 flex-col fixed inset-y-0 left-0 z-50 bg-background border-r border-border text-foreground">
             {/* Logo Area */}
             <div className="p-6 flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center">
-                    <ShoppingBag className="h-5 w-5 text-white" />
+                <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center">
+                    <ShoppingBag className="h-5 w-5 text-primary-foreground" />
                 </div>
-                <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+                <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-muted-foreground">
                     StreamStore
                 </span>
             </div>
@@ -69,8 +69,8 @@ export function Sidebar() {
                                         className={cn(
                                             "w-full justify-start gap-3 h-11 rounded-xl transition-all duration-200",
                                             pathname === item.href
-                                                ? "bg-white/10 text-white font-medium"
-                                                : "hover:bg-white/5 hover:text-white"
+                                                ? "bg-secondary text-secondary-foreground font-medium"
+                                                : "hover:bg-muted hover:text-foreground"
                                         )}
                                     >
                                         <item.icon className="h-5 w-5" />
@@ -96,8 +96,8 @@ export function Sidebar() {
                                         className={cn(
                                             "w-full justify-start gap-3 h-10 rounded-xl text-slate-400",
                                             pathname === item.href
-                                                ? "bg-white/10 text-white"
-                                                : "hover:bg-white/5 hover:text-white"
+                                                ? "bg-secondary text-secondary-foreground"
+                                                : "hover:bg-muted hover:text-foreground"
                                         )}
                                     >
                                         <item.icon className="h-4 w-4" />
@@ -123,8 +123,8 @@ export function Sidebar() {
                                         className={cn(
                                             "w-full justify-start gap-3 h-10 rounded-xl text-slate-400",
                                             pathname === item.href
-                                                ? "bg-white/10 text-white"
-                                                : "hover:bg-white/5 hover:text-white"
+                                                ? "bg-secondary text-secondary-foreground"
+                                                : "hover:bg-muted hover:text-foreground"
                                         )}
                                     >
                                         <item.icon className="h-4 w-4" />
@@ -139,16 +139,16 @@ export function Sidebar() {
             </ScrollArea>
 
             {/* User Profile / Footer Mock */}
-            <div className="p-4 border-t border-white/10">
-                <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 cursor-pointer transition-colors">
-                    <div className="h-9 w-9 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">
+            <div className="p-4 border-t border-border">
+                <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-muted cursor-pointer transition-colors">
+                    <div className="h-9 w-9 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">
                         U
                     </div>
                     <div className="flex-1">
-                        <p className="text-sm font-medium text-white">Guest User</p>
-                        <p className="text-xs text-slate-500">View Profile</p>
+                        <p className="text-sm font-medium text-foreground">Guest User</p>
+                        <p className="text-xs text-muted-foreground">View Profile</p>
                     </div>
-                    <Settings className="h-4 w-4 text-slate-500" />
+                    <Settings className="h-4 w-4 text-muted-foreground" />
                 </div>
             </div>
         </div>

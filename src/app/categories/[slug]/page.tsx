@@ -132,15 +132,15 @@ export default async function CategoryPage(props: CategoryPageProps) {
                 <Breadcrumb items={breadcrumbItems} />
 
                 {/* Category Header */}
-                <div className="bg-slate-900/50 backdrop-blur-sm rounded-lg p-6 mb-6 shadow-lg border border-white/10">
+                <div className="bg-card rounded-lg p-6 mb-6 shadow-sm border border-border">
                     <div className="flex items-center gap-4 mb-4">
-                        <div className="text-blue-400">
+                        <div className="text-primary">
                             {getIcon(category.icon)}
                         </div>
-                        <h1 className="text-3xl font-bold text-white">{category.name}</h1>
+                        <h1 className="text-3xl font-bold text-foreground">{category.name}</h1>
                     </div>
                     {category.description && (
-                        <p className="text-slate-300 text-lg">{category.description}</p>
+                        <p className="text-muted-foreground text-lg">{category.description}</p>
                     )}
                 </div>
 
@@ -161,12 +161,12 @@ export default async function CategoryPage(props: CategoryPageProps) {
                     <div className="lg:hidden mb-4">
                         <Sheet>
                             <SheetTrigger asChild>
-                                <Button variant="outline" className="w-full border-slate-700 bg-slate-900/50 text-slate-300">
+                                <Button variant="outline" className="w-full border-input bg-background text-foreground">
                                     <Filter className="mr-2 h-4 w-4" />
                                     Filters & Sort
                                 </Button>
                             </SheetTrigger>
-                            <SheetContent side="left" className="w-[300px] bg-slate-950 border-slate-800 p-6 overflow-y-auto">
+                            <SheetContent side="left" className="w-[300px] bg-background border-border p-6 overflow-y-auto">
                                 <div className="mt-6">
                                     <FilterSidebar
                                         initialFilters={filters}
@@ -185,8 +185,8 @@ export default async function CategoryPage(props: CategoryPageProps) {
                         <div className="mb-6">
                             <ActiveFilters filters={filters} />
 
-                            <div className="flex flex-wrap items-center justify-between pb-4 border-b border-slate-800 gap-4">
-                                <h2 className="text-lg md:text-xl font-bold text-white">
+                            <div className="flex flex-wrap items-center justify-between pb-4 border-b border-border gap-4">
+                                <h2 className="text-lg md:text-xl font-bold text-foreground">
                                     {total} Products Found
                                 </h2>
                                 <ProductSort />
@@ -200,14 +200,14 @@ export default async function CategoryPage(props: CategoryPageProps) {
                                 ))}
                             </div>
                         ) : (
-                            <div className="bg-slate-900/50 backdrop-blur-sm rounded-lg p-12 text-center shadow-lg border border-white/10">
-                                <p className="text-slate-300 text-lg mb-4">
+                            <div className="bg-muted/30 backdrop-blur-sm rounded-lg p-12 text-center shadow-sm border border-border">
+                                <p className="text-muted-foreground text-lg mb-4">
                                     No products found matching your filters.
                                 </p>
                                 <Button
                                     asChild
                                     variant="outline"
-                                    className="border-blue-500 text-blue-400 hover:bg-blue-950"
+                                    className="border-primary text-primary hover:bg-primary/10"
                                 >
                                     <Link href={`/categories/${slug}`}>
                                         Clear Filters

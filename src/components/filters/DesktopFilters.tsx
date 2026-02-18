@@ -39,20 +39,20 @@ export function DesktopFilters({
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Desktop Specs</h3>
 
             {/* CPU */}
-            <div className="pb-2 border-b border-slate-800/50">
+            <div className="pb-2 border-b border-border">
                 <Collapsible open={openSections.cpu} onOpenChange={() => toggleSection('cpu')}>
                     <div className="flex items-center justify-between w-full mb-2">
                         <div className="flex items-center gap-2">
-                            <span className="text-xs font-medium text-slate-300">CPU</span>
+                            <span className="text-xs font-medium text-muted-foreground">CPU</span>
                             {filters.cpuTypes && filters.cpuTypes.length > 0 && (
-                                <span className="bg-blue-600 text-[10px] text-white font-bold px-1.5 py-0.5 rounded-full">
+                                <span className="bg-primary text-[10px] text-primary-foreground font-bold px-1.5 py-0.5 rounded-full">
                                     {filters.cpuTypes.length}
                                 </span>
                             )}
                         </div>
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-slate-800/50 rounded-full">
-                                {openSections.cpu ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
+                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-muted rounded-full">
+                                {openSections.cpu ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
                             </Button>
                         </CollapsibleTrigger>
                     </div>
@@ -64,9 +64,9 @@ export function DesktopFilters({
                                         id={`cpu-${cpu}`}
                                         checked={filters.cpuTypes?.includes(cpu)}
                                         onCheckedChange={() => onCpuChange(cpu)}
-                                        className="h-3.5 w-3.5 rounded-sm border-slate-600"
+                                        className="h-3.5 w-3.5 rounded-sm border-input"
                                     />
-                                    <Label htmlFor={`cpu-${cpu}`} className="text-xs text-slate-400 cursor-pointer capitalize">
+                                    <Label htmlFor={`cpu-${cpu}`} className="text-xs text-muted-foreground cursor-pointer capitalize">
                                         {cpu.replace('-', ' ')}
                                     </Label>
                                 </div>
@@ -77,20 +77,20 @@ export function DesktopFilters({
             </div>
 
             {/* RAM */}
-            <div className="pb-2 border-b border-slate-800/50">
+            <div className="pb-2 border-b border-border">
                 <Collapsible open={openSections.ram} onOpenChange={() => toggleSection('ram')}>
                     <div className="flex items-center justify-between w-full mb-2">
                         <div className="flex items-center gap-2">
-                            <span className="text-xs font-medium text-slate-300">RAM</span>
+                            <span className="text-xs font-medium text-muted-foreground">RAM</span>
                             {filters.ramSizes && filters.ramSizes.length > 0 && (
-                                <span className="bg-blue-600 text-[10px] text-white font-bold px-1.5 py-0.5 rounded-full">
+                                <span className="bg-primary text-[10px] text-primary-foreground font-bold px-1.5 py-0.5 rounded-full">
                                     {filters.ramSizes.length}
                                 </span>
                             )}
                         </div>
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-slate-800/50 rounded-full">
-                                {openSections.ram ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
+                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-muted rounded-full">
+                                {openSections.ram ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
                             </Button>
                         </CollapsibleTrigger>
                     </div>
@@ -102,9 +102,9 @@ export function DesktopFilters({
                                         id={`ram-${size}`}
                                         checked={filters.ramSizes?.includes(size)}
                                         onCheckedChange={() => onRamChange(size)}
-                                        className="h-3.5 w-3.5 rounded-sm border-slate-600"
+                                        className="h-3.5 w-3.5 rounded-sm border-input"
                                     />
-                                    <Label htmlFor={`ram-${size}`} className="text-xs text-slate-400 cursor-pointer">
+                                    <Label htmlFor={`ram-${size}`} className="text-xs text-muted-foreground cursor-pointer">
                                         {size}GB
                                     </Label>
                                 </div>
@@ -121,9 +121,9 @@ export function DesktopFilters({
                         id="has-gpu"
                         checked={filters.hasGPU === true}
                         onCheckedChange={(checked) => onGpuChange(checked as boolean)}
-                        className="h-3.5 w-3.5 rounded-sm border-slate-600"
+                        className="h-3.5 w-3.5 rounded-sm border-input"
                     />
-                    <Label htmlFor="has-gpu" className="text-xs font-medium text-slate-300 cursor-pointer">
+                    <Label htmlFor="has-gpu" className="text-xs font-medium text-muted-foreground cursor-pointer">
                         Dedicated GPU
                     </Label>
                 </div>

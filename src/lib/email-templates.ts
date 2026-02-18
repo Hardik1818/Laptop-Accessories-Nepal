@@ -41,7 +41,7 @@ export const getOrderEmailTemplate = (order: any, items: any[]) => {
         </table>
 
         <div style="text-align: center; margin-top: 30px;">
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/admin/orders" 
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/adminlogin/orders" 
                style="background: #2563eb; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
                 View Order in Dashboard
             </a>

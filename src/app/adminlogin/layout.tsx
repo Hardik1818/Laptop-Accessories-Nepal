@@ -22,15 +22,15 @@ export default function AdminLayout({
     };
 
     // If on the login page itself, just render children without sidebar
-    if (pathname === "/admin") {
+    if (pathname === "/adminlogin") {
         return <>{children}</>;
     }
 
     const navItems = [
-        { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-        { name: "Orders", href: "/admin/orders", icon: ShoppingBag },
-        { name: "Products", href: "/admin/products", icon: Package },
-        { name: "Settings", href: "/admin/settings", icon: Settings },
+        { name: "Dashboard", href: "/adminlogin/dashboard", icon: LayoutDashboard },
+        { name: "Orders", href: "/adminlogin/orders", icon: ShoppingBag },
+        { name: "Products", href: "/adminlogin/products", icon: Package },
+        { name: "Settings", href: "/adminlogin/settings", icon: Settings },
     ];
 
     const SidebarContent = () => (
@@ -51,7 +51,7 @@ export default function AdminLayout({
 
             <nav className="flex-1 px-4 space-y-1 mt-4">
                 {navItems.map((item) => {
-                    const isActive = pathname === item.href || (item.href !== "/admin/dashboard" && pathname.startsWith(item.href));
+                    const isActive = pathname === item.href || (item.href !== "/adminlogin/dashboard" && pathname.startsWith(item.href));
                     return (
                         <Button
                             key={item.name}

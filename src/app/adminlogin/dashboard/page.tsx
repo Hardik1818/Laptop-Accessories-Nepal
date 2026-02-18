@@ -129,7 +129,7 @@ export default function AdminDashboard() {
                                 <CardTitle className="text-base md:text-lg font-bold">Recent Activity</CardTitle>
                                 <CardDescription className="text-xs md:text-sm text-slate-500">Latest transactions.</CardDescription>
                             </div>
-                            <a href="/admin/orders" className="text-blue-500 hover:text-blue-400 p-2">
+                            <a href="/adminlogin/orders" className="text-blue-500 hover:text-blue-400 p-2">
                                 <ArrowUpRight className="h-4 w-4 md:h-5 md:w-5" />
                             </a>
                         </div>

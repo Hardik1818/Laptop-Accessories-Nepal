@@ -47,16 +47,16 @@ export function LaptopFilters({
     const screenOptions = [13, 14, 15.6, 17];
 
     return (
-        <div className="space-y-4 border-t border-slate-800/50 pt-4">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Laptop Specs</h3>
+        <div className="space-y-4 border-t border-border pt-4">
+            <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">Laptop Specs</h3>
 
             {/* Processor */}
-            <div className="border-b border-slate-800/50 pb-4">
+            <div className="border-b border-border pb-4">
                 <Collapsible open={openSections.processor} onOpenChange={() => toggleSection('processor')}>
                     <div className="flex items-center justify-between w-full mb-2">
-                        <span className="text-xs font-medium text-slate-300">Processor</span>
+                        <span className="text-xs font-medium text-muted-foreground">Processor</span>
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-slate-800/50 rounded-full">
+                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-muted rounded-full">
                                 {openSections.processor ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
                             </Button>
                         </CollapsibleTrigger>
@@ -69,11 +69,11 @@ export function LaptopFilters({
                                         id={`proc-${proc}`}
                                         checked={filters.processorTypes?.includes(proc as any)}
                                         onCheckedChange={() => onProcessorChange(proc)}
-                                        className="h-3.5 w-3.5 rounded-sm border-slate-600"
+                                        className="h-3.5 w-3.5 rounded-sm border-input"
                                     />
-                                    <Label htmlFor={`proc-${proc}`} className="text-xs text-slate-400 cursor-pointer capitalize">
+                                    <Label htmlFor={`proc-${proc}`} className="text-xs text-muted-foreground cursor-pointer capitalize">
                                         {proc.replace('-', ' ')}
-                                        {counts?.processorTypes?.[proc] !== undefined && <span className="text-slate-600 ml-1">({counts.processorTypes[proc]})</span>}
+                                        {counts?.processorTypes?.[proc] !== undefined && <span className="text-muted-foreground/70 ml-1">({counts.processorTypes[proc]})</span>}
                                     </Label>
                                 </div>
                             ))}
@@ -83,12 +83,12 @@ export function LaptopFilters({
             </div>
 
             {/* RAM */}
-            <div className="border-b border-slate-800/50 pb-4">
+            <div className="border-b border-border pb-4">
                 <Collapsible open={openSections.ram} onOpenChange={() => toggleSection('ram')}>
                     <div className="flex items-center justify-between w-full mb-2">
-                        <span className="text-xs font-medium text-slate-300">RAM</span>
+                        <span className="text-xs font-medium text-muted-foreground">RAM</span>
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-slate-800/50 rounded-full">
+                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-muted rounded-full">
                                 {openSections.ram ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
                             </Button>
                         </CollapsibleTrigger>
@@ -101,9 +101,9 @@ export function LaptopFilters({
                                         id={`ram-${ram}`}
                                         checked={filters.ramSizes?.includes(ram)}
                                         onCheckedChange={() => onRamChange(ram)}
-                                        className="h-3.5 w-3.5 rounded-sm border-slate-600"
+                                        className="h-3.5 w-3.5 rounded-sm border-input"
                                     />
-                                    <Label htmlFor={`ram-${ram}`} className="text-xs text-slate-400 cursor-pointer">
+                                    <Label htmlFor={`ram-${ram}`} className="text-xs text-muted-foreground cursor-pointer">
                                         {ram}GB
                                     </Label>
                                 </div>
@@ -114,12 +114,12 @@ export function LaptopFilters({
             </div>
 
             {/* Storage */}
-            <div className="border-b border-slate-800/50 pb-4">
+            <div className="border-b border-border pb-4">
                 <Collapsible open={openSections.storage} onOpenChange={() => toggleSection('storage')}>
                     <div className="flex items-center justify-between w-full mb-2">
-                        <span className="text-xs font-medium text-slate-300">Storage Type</span>
+                        <span className="text-xs font-medium text-muted-foreground">Storage Type</span>
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-slate-800/50 rounded-full">
+                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-muted rounded-full">
                                 {openSections.storage ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
                             </Button>
                         </CollapsibleTrigger>
@@ -132,9 +132,9 @@ export function LaptopFilters({
                                         id={`storage-${type}`}
                                         checked={filters.storageTypes?.includes(type as any)}
                                         onCheckedChange={() => onStorageChange(type as any)}
-                                        className="h-3.5 w-3.5 rounded-sm border-slate-600"
+                                        className="h-3.5 w-3.5 rounded-sm border-input"
                                     />
-                                    <Label htmlFor={`storage-${type}`} className="text-xs text-slate-400 cursor-pointer uppercase">
+                                    <Label htmlFor={`storage-${type}`} className="text-xs text-muted-foreground cursor-pointer uppercase">
                                         {type}
                                     </Label>
                                 </div>
@@ -148,10 +148,10 @@ export function LaptopFilters({
             <div className="pb-2">
                 <Collapsible open={openSections.screen} onOpenChange={() => toggleSection('screen')}>
                     <div className="flex items-center justify-between w-full mb-2">
-                        <span className="text-xs font-medium text-slate-300">Screen Size</span>
+                        <span className="text-xs font-medium text-muted-foreground">Screen Size</span>
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-slate-800/50 rounded-full">
-                                {openSections.screen ? <Minus className="h-3 w-3 text-slate-500" /> : <Plus className="h-3 w-3 text-slate-500" />}
+                            <Button variant="ghost" size="icon" className="h-5 w-5 p-0 hover:bg-muted rounded-full">
+                                {openSections.screen ? <Minus className="h-3 w-3 text-muted-foreground" /> : <Plus className="h-3 w-3 text-muted-foreground" />}
                             </Button>
                         </CollapsibleTrigger>
                     </div>
@@ -163,9 +163,9 @@ export function LaptopFilters({
                                         id={`screen-${size}`}
                                         checked={filters.screenSizes?.includes(size)}
                                         onCheckedChange={() => onScreenChange(size)}
-                                        className="h-3.5 w-3.5 rounded-sm border-slate-600"
+                                        className="h-3.5 w-3.5 rounded-sm border-input"
                                     />
-                                    <Label htmlFor={`screen-${size}`} className="text-xs text-slate-400 cursor-pointer">
+                                    <Label htmlFor={`screen-${size}`} className="text-xs text-muted-foreground cursor-pointer">
                                         {size}"
                                     </Label>
                                 </div>

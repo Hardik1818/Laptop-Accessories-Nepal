@@ -29,8 +29,8 @@ export function ProductCard({ product }: ProductCardProps) {
     };
 
     return (
-        <Card className="group overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 border-white/10 bg-white/5 text-slate-100 hover:bg-white/10">
-            <div className="relative aspect-[4/5] w-full bg-slate-900 overflow-hidden">
+        <Card className="group overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 border-border bg-card text-card-foreground hover:bg-muted/10">
+            <div className="relative aspect-[4/5] w-full bg-muted overflow-hidden">
                 {/* Full Card Link Overlay */}
                 <Link href={`/product/${product.id}`} className="absolute inset-0 z-10">
                     <span className="sr-only">View {product.name}</span>
@@ -56,7 +56,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 <div className="absolute bottom-3 right-3 z-30">
                     <Button
                         size="icon"
-                        className="rounded-full h-8 w-8 md:h-10 md:w-10 bg-blue-600 hover:bg-blue-700 text-white border-none shadow-lg active:scale-95 transition-transform"
+                        className="rounded-full h-8 w-8 md:h-10 md:w-10 bg-primary hover:bg-primary/90 text-primary-foreground border-none shadow-lg active:scale-95 transition-transform"
                         onClick={(e) => {
                             e.preventDefault(); // Prevent navigating to product page
                             e.stopPropagation();
@@ -76,12 +76,12 @@ export function ProductCard({ product }: ProductCardProps) {
                 </div>
             </div>
 
-            <CardContent className="flex-1 p-3 md:p-4 bg-slate-900/50 backdrop-blur-sm border-t border-white/5">
-                <div className="text-[10px] md:text-xs text-slate-400 uppercase tracking-wide mb-1 font-medium truncate">
+            <CardContent className="flex-1 p-3 md:p-4 bg-card backdrop-blur-sm border-t border-border">
+                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wide mb-1 font-medium truncate">
                     {product.category}
                 </div>
                 <Link href={`/product/${product.id}`} className="block">
-                    <h3 className="font-bold text-xs md:text-sm leading-snug line-clamp-2 text-slate-200 group-hover:text-blue-400 transition-colors h-8 md:h-10">
+                    <h3 className="font-bold text-xs md:text-sm leading-snug line-clamp-2 text-foreground group-hover:text-primary transition-colors h-8 md:h-10">
                         {product.name}
                     </h3>
                 </Link>
