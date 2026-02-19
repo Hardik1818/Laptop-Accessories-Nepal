@@ -198,7 +198,7 @@ export default function AdminProductsPage() {
             p.stock,
             p.is_featured ? "Yes" : "No",
             p.is_trending ? "Yes" : "No",
-            new Date(p.created_at).toLocaleDateString()
+            p.created_at ? new Date(p.created_at).toLocaleDateString() : "-"
         ]);
 
         const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
