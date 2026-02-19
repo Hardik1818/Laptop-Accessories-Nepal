@@ -132,7 +132,7 @@ export default function AdminSettingsPage() {
                                     ) : (
                                         <label className="h-24 w-24 border-2 border-dashed border-slate-800 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-950/50 hover:bg-slate-950 hover:border-purple-600/30 transition-all group">
                                             <Plus className="h-6 w-6 text-slate-700 group-hover:text-purple-500" />
-                                            <span className="text-[8px] mt-1 text-slate-700 font-bold uppercase">Upload</span>
+                                            <span className="text-[8px] mt-1 text-slate-500 font-bold uppercase">Upload</span>
                                             <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'site_logo')} />
                                         </label>
                                     )}
@@ -166,7 +166,7 @@ export default function AdminSettingsPage() {
                                             ) : (
                                                 <label className="h-32 w-full border-2 border-dashed border-slate-800 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-950/50 hover:bg-slate-950 hover:border-primary/30 transition-all group">
                                                     <ImageIcon className="h-8 w-8 text-slate-700 group-hover:text-primary" />
-                                                    <span className="text-[8px] mt-2 text-slate-700 font-bold uppercase">Upload Asset</span>
+                                                    <span className="text-[8px] mt-2 text-slate-500 font-bold uppercase">Upload Asset</span>
                                                     <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, banner.key)} />
                                                 </label>
                                             )}
@@ -214,7 +214,7 @@ export default function AdminSettingsPage() {
                                 ) : (
                                     <label className="h-48 w-full border-2 border-dashed border-slate-800 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-950/50 hover:bg-slate-950 hover:border-pink-600/30 transition-all group">
                                         <ImageIcon className="h-8 w-8 text-slate-700 group-hover:text-pink-500" />
-                                        <span className="text-[10px] mt-2 text-slate-700 font-bold uppercase">Upload Portrait</span>
+                                        <span className="text-[10px] mt-2 text-slate-500 font-bold uppercase">Upload Portrait</span>
                                         <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'about_hero')} />
                                     </label>
                                 )}
@@ -234,7 +234,7 @@ export default function AdminSettingsPage() {
                                 ) : (
                                     <label className="h-48 w-full border-2 border-dashed border-slate-800 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-950/50 hover:bg-slate-950 hover:border-pink-600/30 transition-all group">
                                         <ImageIcon className="h-8 w-8 text-slate-700 group-hover:text-pink-500" />
-                                        <span className="text-[10px] mt-2 text-slate-700 font-bold uppercase">Upload Landscape</span>
+                                        <span className="text-[10px] mt-2 text-slate-500 font-bold uppercase">Upload Landscape</span>
                                         <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'about_story')} />
                                     </label>
                                 )}
@@ -366,7 +366,7 @@ export default function AdminSettingsPage() {
                                 ) : (
                                     <label className="h-40 w-40 border-2 border-dashed border-slate-800 rounded-3xl flex flex-col items-center justify-center cursor-pointer bg-slate-950/50 hover:bg-slate-950 hover:border-blue-600/30 transition-all group">
                                         <Plus className="h-8 w-8 text-slate-800 group-hover:text-blue-500" />
-                                        <span className="text-[10px] mt-2 text-slate-700 font-black uppercase tracking-tighter group-hover:text-slate-400">Inject QR Asset</span>
+                                        <span className="text-[10px] mt-2 text-slate-500 font-black uppercase tracking-tighter group-hover:text-slate-400">Inject QR Asset</span>
                                         <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'payment_qr_url')} />
                                     </label>
                                 )}

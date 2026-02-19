@@ -67,7 +67,7 @@ export default function SubscribersPage() {
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black tracking-tighter uppercase italic">Newsletter <span className="text-secondary tracking-tighter">Subscribers</span></h1>
+                    <h1 className="text-3xl font-black tracking-tighter uppercase italic">Newsletter <span className="text-primary tracking-tighter">Subscribers</span></h1>
                     <p className="text-slate-400 mt-1">Manage your email list and export audience data.</p>
                 </div>
                 <Button
@@ -96,9 +96,9 @@ export default function SubscribersPage() {
                     <table className="w-full text-left">
                         <thead className="bg-slate-800/30 border-b border-slate-800">
                             <tr>
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Email Address</th>
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Subscribed On</th>
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-right">Actions</th>
+                                <th className="px-4 md:px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Email Address</th>
+                                <th className="hidden md:table-cell px-4 md:px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Subscribed On</th>
+                                <th className="px-4 md:px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-800/50 text-slate-300">
@@ -106,21 +106,21 @@ export default function SubscribersPage() {
                                 <tr><td colSpan={3} className="px-8 py-20 text-center text-slate-500 italic">Authenticating database connection...</td></tr>
                             ) : filteredSubs.map((sub) => (
                                 <tr key={sub.id} className="hover:bg-slate-800/30 transition-colors group">
-                                    <td className="px-8 py-5">
+                                    <td className="px-4 md:px-8 py-5">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shrink-0">
                                                 <Mail className="w-5 h-5" />
                                             </div>
-                                            <span className="font-bold text-slate-100 text-base">{sub.email}</span>
+                                            <span className="font-bold text-slate-100 text-sm md:text-base break-all">{sub.email}</span>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-5 whitespace-nowrap text-sm font-medium text-slate-500">
+                                    <td className="hidden md:table-cell px-4 md:px-8 py-5 whitespace-nowrap text-sm font-medium text-slate-500">
                                         <div className="flex items-center gap-2.5">
                                             <Calendar className="w-4 h-4 opacity-30" />
                                             {new Date(sub.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                         </div>
                                     </td>
-                                    <td className="px-8 py-5 whitespace-nowrap text-right">
+                                    <td className="px-4 md:px-8 py-5 whitespace-nowrap text-right">
                                         <Button
                                             onClick={() => deleteSub(sub.id)}
                                             variant="ghost"

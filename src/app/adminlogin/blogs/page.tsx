@@ -27,8 +27,8 @@ export default async function AdminBlogsPage() {
                             <tr>
                                 <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Status</th>
                                 <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Title</th>
-                                <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Category</th>
-                                <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Date</th>
+                                <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Category</th>
+                                <th className="hidden md:table-cell px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Date</th>
                                 <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 text-right">Actions</th>
                             </tr>
                         </thead>
@@ -63,12 +63,12 @@ export default async function AdminBlogsPage() {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                                         <span className="text-[10px] font-black px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 uppercase tracking-widest border border-slate-700">
                                             {blog.category}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-500">
+                                    <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-500">
                                         {new Date(blog.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right">

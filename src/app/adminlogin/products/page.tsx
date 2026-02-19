@@ -8,7 +8,11 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Plus, Edit, Trash, Search, Image as ImageIcon, Loader2, Package, ShieldCheck, Cpu, Box, X } from "lucide-react";
+import { Plus, Edit, Trash, Search, Image as ImageIcon, Loader2, Package, ShieldCheck, Cpu, Box, X, Download } from "lucide-react";
+
+// ... (existing code)
+
+
 import Image from "next/image";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
@@ -184,6 +188,29 @@ export default function AdminProductsPage() {
         p.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const downloadCSV = () => {
+        const headers = ["ID", "Name", "Category", "Price", "Stock", "Featured", "Trending", "Created At"];
+        const rows = products.map(p => [
+            p.id,
+            JSON.stringify(p.name).replace(/,/g, ""), // simple escape for CSV
+            p.category,
+            p.price,
+            p.stock,
+            p.is_featured ? "Yes" : "No",
+            p.is_trending ? "Yes" : "No",
+            new Date(p.created_at).toLocaleDateString()
+        ]);
+
+        const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `inventory_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     if (loading) return (
         <div className="flex items-center justify-center min-h-[400px]">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -209,7 +236,10 @@ export default function AdminProductsPage() {
                             onChange={e => setSearchTerm(e.target.value)}
                         />
                     </div>
-                    <Button onClick={() => handleOpenDialog()} className="h-11 px-6 bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-900/20 w-full md:w-auto">
+                    <Button onClick={downloadCSV} variant="outline" className="h-11 px-4 border-slate-700 bg-slate-900/50 hover:bg-slate-800 text-slate-300 font-bold uppercase tracking-wider text-[10px]">
+                        <Download className="mr-2 h-4 w-4" /> Export CSV
+                    </Button>
+                    <Button onClick={() => handleOpenDialog()} className="h-11 px-6 bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-900/20 w-full md:w-auto font-black italic tracking-tighter">
                         <Plus className="mr-2 h-4 w-4" /> Add Product
                     </Button>
                 </div>
@@ -410,7 +440,7 @@ export default function AdminProductsPage() {
                                             {(formData.images?.length || 0) < 6 && (
                                                 <label className="aspect-square flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-xl bg-slate-950/50 hover:bg-slate-950 hover:border-blue-600/30 cursor-pointer transition-all group overflow-hidden">
                                                     {uploadingImage ? <Loader2 className="h-5 w-5 animate-spin text-blue-500" /> : <Box className="h-5 w-5 text-slate-600 group-hover:text-blue-500" />}
-                                                    <span className="text-[10px] mt-2 font-black uppercase text-slate-700 group-hover:text-slate-400 tracking-tighter">Add Image</span>
+                                                    <span className="text-[10px] mt-2 font-black uppercase text-slate-500 group-hover:text-slate-400 tracking-tighter">Add Image</span>
                                                     <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploadingImage} />
                                                 </label>
                                             )}

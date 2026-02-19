@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/lib/supabase";
 import { Category } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -131,11 +132,11 @@ export default function AdminCategoriesPage() {
                         </div>
                         <div>
                             <h4 className="font-bold text-slate-200">{category.name}</h4>
-                            <p className="text-[10px] text-slate-500 uppercase tracking-widest font-black italic">{category.slug}</p>
+                            <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black italic">{category.slug}</p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                         <Button variant="ghost" size="icon" onClick={() => handleOpenDialog(category)} className="h-8 w-8 text-slate-400 hover:text-white">
                             <Edit className="h-4 w-4" />
                         </Button>
@@ -176,7 +177,7 @@ export default function AdminCategoriesPage() {
                 {parentCategories.length === 0 ? (
                     <Card className="bg-slate-900/50 border-slate-800 py-20 text-center">
                         <Layers className="h-12 w-12 text-slate-700 mx-auto mb-4" />
-                        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">No categories created yet.</p>
+                        <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">No categories created yet.</p>
                     </Card>
                 ) : (
                     parentCategories.map(cat => renderCategoryRow(cat))
@@ -188,12 +189,12 @@ export default function AdminCategoriesPage() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-xl p-4">
                     <Card className="w-full max-w-xl bg-slate-900 border-slate-800 shadow-2xl">
                         <CardHeader className="pb-4">
-                            <CardTitle className="text-2xl font-black italic uppercase">{editingCategory ? "Edit Category" : "New Category"}</CardTitle>
+                            <CardTitle className="text-2xl font-black italic uppercase text-white">{editingCategory ? "Edit Category" : "New Category"}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <form id="category-form" onSubmit={handleSubmit} className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Name</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Name</Label>
                                     <Input
                                         required
                                         className="bg-slate-950 border-slate-800 text-white"
@@ -202,7 +203,7 @@ export default function AdminCategoriesPage() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Slug (Optional)</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Slug (Optional)</Label>
                                     <Input
                                         placeholder="auto-generated"
                                         className="bg-slate-950 border-slate-800 font-mono text-xs text-white"
@@ -212,12 +213,12 @@ export default function AdminCategoriesPage() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Parent Category</Label>
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Parent Category</Label>
                                         <Select
                                             value={formData.parent_id || "none"}
                                             onValueChange={val => setFormData({ ...formData, parent_id: val === "none" ? undefined : val })}
                                         >
-                                            <SelectTrigger className="bg-slate-950 border-slate-800">
+                                            <SelectTrigger className="bg-slate-950 border-slate-800 text-white">
                                                 <SelectValue placeholder="None (Top Level)" />
                                             </SelectTrigger>
                                             <SelectContent className="bg-slate-900 border-slate-800 text-white">
@@ -229,12 +230,12 @@ export default function AdminCategoriesPage() {
                                         </Select>
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Icon (Lucide)</Label>
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Icon (Lucide)</Label>
                                         <Select
                                             value={formData.icon || "Package"}
                                             onValueChange={val => setFormData({ ...formData, icon: val })}
                                         >
-                                            <SelectTrigger className="bg-slate-950 border-slate-800">
+                                            <SelectTrigger className="bg-slate-950 border-slate-800 text-white">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px] text-white">
@@ -246,7 +247,7 @@ export default function AdminCategoriesPage() {
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Description</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Description</Label>
                                     <Textarea
                                         className="bg-slate-950 border-slate-800 h-20 text-white"
                                         value={formData.description || ""}
@@ -255,7 +256,7 @@ export default function AdminCategoriesPage() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Display Order</Label>
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Display Order</Label>
                                         <Input
                                             type="number"
                                             className="bg-slate-950 border-slate-800 text-white"
@@ -264,12 +265,11 @@ export default function AdminCategoriesPage() {
                                         />
                                     </div>
                                     <div className="flex items-center gap-2 pt-8">
-                                        <input
-                                            type="checkbox"
+                                        <Checkbox
                                             id="is_active"
                                             checked={formData.is_active}
-                                            onChange={e => setFormData({ ...formData, is_active: e.target.checked })}
-                                            className="accent-blue-600"
+                                            onCheckedChange={(checked) => setFormData({ ...formData, is_active: checked as boolean })}
+                                            className="border-slate-600 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
                                         />
                                         <Label htmlFor="is_active" className="text-xs font-bold uppercase tracking-widest text-slate-400">Active</Label>
                                     </div>
@@ -277,7 +277,7 @@ export default function AdminCategoriesPage() {
                             </form>
                         </CardContent>
                         <CardFooter className="flex justify-end gap-3">
-                            <Button variant="ghost" onClick={() => setIsDialogOpen(false)} className="font-bold text-slate-500">CANCEL</Button>
+                            <Button variant="ghost" onClick={() => setIsDialogOpen(false)} className="font-bold text-slate-400 hover:text-white">CANCEL</Button>
                             <Button type="submit" form="category-form" disabled={submitting} className="bg-blue-600 hover:bg-blue-700 font-bold italic">
                                 {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
                                 {editingCategory ? "UPDATE" : "SAVE"}

@@ -6,7 +6,7 @@ import { Order } from "@/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Search, Eye, ShoppingCart, User, MapPin, Phone, CreditCard, Clock } from "lucide-react";
+import { Search, Eye, ShoppingCart, User, MapPin, Phone, CreditCard, Clock, Download } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { OrderDetailModal } from "@/components/admin/OrderDetailModal";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -79,6 +79,28 @@ export default function AdminOrdersPage() {
         return matchesSearch && matchesStatus;
     });
 
+    const downloadCSV = () => {
+        const headers = ["Order ID", "Customer Name", "Phone", "Status", "Total (NPR)", "Payment Method", "Date"];
+        const rows = filteredOrders.map(order => [
+            order.id,
+            JSON.stringify(order.customer_name).replace(/,/g, ""), // simple escape
+            order.phone,
+            order.status,
+            order.total,
+            order.payment_method,
+            new Date(order.created_at).toLocaleString()
+        ]);
+
+        const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `orders_export_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     if (loading) return (
         <div className="flex items-center justify-center min-h-[400px]">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -94,14 +116,19 @@ export default function AdminOrdersPage() {
                     </h2>
                     <p className="text-slate-400 mt-1">Manage, verify, and fulfill customer requests.</p>
                 </div>
-                <div className="relative w-full md:w-80">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
-                    <Input
-                        placeholder="Search ID, Name or Phone..."
-                        className="pl-10 bg-slate-900/50 border-slate-800 focus:border-blue-500/50 transition-all h-11"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+                    <div className="relative flex-1 md:w-64">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                        <Input
+                            placeholder="Search ID, Name or Phone..."
+                            className="pl-10 bg-slate-900/50 border-slate-800 focus:border-blue-500/50 transition-all h-11"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <Button onClick={downloadCSV} variant="outline" className="h-11 px-4 border-slate-700 bg-slate-900/50 hover:bg-slate-800 text-slate-300 font-bold uppercase tracking-wider text-[10px]">
+                        <Download className="mr-2 h-4 w-4" /> Export CSV
+                    </Button>
                 </div>
             </div>
 
