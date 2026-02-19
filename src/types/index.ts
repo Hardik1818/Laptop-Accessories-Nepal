@@ -336,3 +336,30 @@ export type PaginatedResponse<T> = {
     totalPages: number;
 };
 
+// ========================================
+// BLOG TYPES
+// ========================================
+
+export type BlogPost = {
+    id: string;
+    title: string;
+    slug: string;
+    content: string;
+    excerpt?: string;
+    image?: string;
+    category?: string;
+    author?: string;
+    is_published: boolean;
+    created_at: string;
+    updated_at: string;
+};
+
+// ========================================
+// NEWSLETTER TYPES
+// ========================================
+
+export type NewsletterSub = {
+    id: string;
+    email: string;
+    created_at: string;
+};

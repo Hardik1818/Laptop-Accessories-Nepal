@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { logoutAction } from "./actions";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { LayoutDashboard, Package, ShoppingBag, Settings, LogOut, Laptop, Menu } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingBag, Settings, LogOut, Laptop, Menu, BookOpen, Users, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +30,9 @@ export default function AdminLayout({
         { name: "Dashboard", href: "/adminlogin/dashboard", icon: LayoutDashboard },
         { name: "Orders", href: "/adminlogin/orders", icon: ShoppingBag },
         { name: "Products", href: "/adminlogin/products", icon: Package },
+        { name: "Categories", href: "/adminlogin/categories", icon: Layers },
+        { name: "Blogs", href: "/adminlogin/blogs", icon: BookOpen },
+        { name: "Subscribers", href: "/adminlogin/subscribers", icon: Users },
         { name: "Settings", href: "/adminlogin/settings", icon: Settings },
     ];
 
@@ -100,7 +103,7 @@ export default function AdminLayout({
     );
 
     return (
-        <div className="flex min-h-screen bg-[#020617] text-slate-100">
+        <div className="flex min-h-screen bg-[#020617] text-slate-100 dark">
             {/* Background Decorative Gradients */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-600/5 blur-[120px]" />

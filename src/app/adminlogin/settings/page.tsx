@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Save, Globe, Phone, Mail, MapPin, ShieldCheck, RefreshCcw, Facebook, Instagram, QrCode, Plus, X, Image as ImageIcon } from "lucide-react";
+import { Loader2, Save, Globe, Phone, Mail, MapPin, ShieldCheck, RefreshCcw, Facebook, Instagram, Twitter, Youtube, QrCode, Plus, X, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
 
 export default function AdminSettingsPage() {
@@ -142,27 +142,36 @@ export default function AdminSettingsPage() {
                                 </div>
                             </div>
 
-                            {/* Hero Banner Upload */}
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Main Framework Background (Hero)</label>
-                                <div className="space-y-3">
-                                    {settings.hero_banner ? (
-                                        <div className="relative h-32 w-full bg-slate-950 rounded-xl border border-slate-800 overflow-hidden group">
-                                            <Image src={settings.hero_banner} alt="Hero" fill className="object-cover" />
-                                            <button
-                                                onClick={() => handleInputChange('hero_banner', '')}
-                                                className="absolute top-2 right-2 bg-rose-600 text-white p-1.5 rounded-lg opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all"
-                                            >
-                                                <X className="h-4 w-4" />
-                                            </button>
+                            {/* Hero Banner Uploads */}
+                            <div className="md:col-span-2 space-y-4">
+                                <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Hero Carousel Assets</label>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    {[
+                                        { key: 'hero_banner', label: 'Primary Slide' },
+                                        { key: 'hero_banner_2', label: 'Secondary Slide' },
+                                        { key: 'hero_banner_3', label: 'Tertiary Slide' }
+                                    ].map((banner) => (
+                                        <div key={banner.key} className="space-y-3">
+                                            <p className="text-[9px] font-bold text-slate-600 uppercase tracking-tighter">{banner.label}</p>
+                                            {settings[banner.key] ? (
+                                                <div className="relative h-32 w-full bg-slate-950 rounded-xl border border-slate-800 overflow-hidden group">
+                                                    <Image src={settings[banner.key]} alt={banner.label} fill className="object-cover" />
+                                                    <button
+                                                        onClick={() => handleInputChange(banner.key, '')}
+                                                        className="absolute top-2 right-2 bg-rose-600 text-white p-1.5 rounded-lg opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all shadow-lg"
+                                                    >
+                                                        <X className="h-4 w-4" />
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <label className="h-32 w-full border-2 border-dashed border-slate-800 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-950/50 hover:bg-slate-950 hover:border-primary/30 transition-all group">
+                                                    <ImageIcon className="h-8 w-8 text-slate-700 group-hover:text-primary" />
+                                                    <span className="text-[8px] mt-2 text-slate-700 font-bold uppercase">Upload Asset</span>
+                                                    <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, banner.key)} />
+                                                </label>
+                                            )}
                                         </div>
-                                    ) : (
-                                        <label className="h-32 w-full border-2 border-dashed border-slate-800 rounded-xl flex flex-col items-center justify-center cursor-pointer bg-slate-950/50 hover:bg-slate-950 hover:border-purple-600/30 transition-all group">
-                                            <ImageIcon className="h-8 w-8 text-slate-700 group-hover:text-purple-500" />
-                                            <span className="text-[10px] mt-2 text-slate-700 font-bold uppercase">Upload 1920x1080 Asset</span>
-                                            <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'hero_banner')} />
-                                        </label>
-                                    )}
+                                    ))}
                                 </div>
                             </div>
                         </div>
@@ -299,18 +308,34 @@ export default function AdminSettingsPage() {
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-6">
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">FB Data Feed</label>
-                                <div className="relative">
-                                    <Facebook className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-600" />
-                                    <Input className="bg-slate-950 border-slate-800 h-11 pl-10" value={settings.facebook_url || ""} onChange={(e) => handleInputChange('facebook_url', e.target.value)} />
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">FB Data Feed</label>
+                                    <div className="relative">
+                                        <Facebook className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-600" />
+                                        <Input className="bg-slate-950 border-slate-800 h-11 pl-10" value={settings.facebook_url || ""} onChange={(e) => handleInputChange('facebook_url', e.target.value)} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">IG Visual Hub</label>
-                                <div className="relative">
-                                    <Instagram className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-pink-600" />
-                                    <Input className="bg-slate-950 border-slate-800 h-11 pl-10" value={settings.instagram_url || ""} onChange={(e) => handleInputChange('instagram_url', e.target.value)} />
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">IG Visual Hub</label>
+                                    <div className="relative">
+                                        <Instagram className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-pink-600" />
+                                        <Input className="bg-slate-950 border-slate-800 h-11 pl-10" value={settings.instagram_url || ""} onChange={(e) => handleInputChange('instagram_url', e.target.value)} />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Twitter Signal</label>
+                                    <div className="relative">
+                                        <Twitter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-sky-500" />
+                                        <Input className="bg-slate-950 border-slate-800 h-11 pl-10" value={settings.twitter_url || ""} onChange={(e) => handleInputChange('twitter_url', e.target.value)} />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">YouTube Channel</label>
+                                    <div className="relative">
+                                        <Youtube className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-red-600" />
+                                        <Input className="bg-slate-950 border-slate-800 h-11 pl-10" value={settings.youtube_url || ""} onChange={(e) => handleInputChange('youtube_url', e.target.value)} />
+                                    </div>
                                 </div>
                             </div>
                         </CardContent>

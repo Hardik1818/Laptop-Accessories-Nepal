@@ -12,7 +12,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <>
-            <main className="flex-1 w-full relative pb-16 lg:pb-0">
+            <main className="flex-1 w-full relative pb-28 lg:pb-0">
                 {children}
                 {!isAdminRoute && (
                     <>

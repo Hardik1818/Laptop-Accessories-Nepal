@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Wrench, MonitorSmartphone, Cpu, Recycle, ShieldCheck, Clock, MapPin } from "lucide-react";
+import { Wrench, MonitorSmartphone, Cpu, Recycle, ShieldCheck, Clock, MapPin, GraduationCap, Briefcase, BadgeCheck, Headset } from "lucide-react";
 
 export default function ServicesPage() {
     return (
@@ -160,6 +160,147 @@ export default function ServicesPage() {
                                     Location & Timing
                                 </Button>
                             </Link>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Service 3: AMC (Annual Maintenance Contract) */}
+                <div className="bg-card border border-border rounded-3xl p-6 md:p-12 shadow-2xl overflow-hidden relative group hover:shadow-blue-500/5 transition-shadow duration-500">
+                    <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+                        <Briefcase className="w-32 h-32 md:w-64 md:h-64 text-blue-600" />
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="p-3 rounded-xl bg-blue-100 border border-blue-200">
+                                    <ShieldCheck className="w-6 h-6 md:w-8 md:h-8 text-blue-600" />
+                                </div>
+                                <h2 className="text-2xl md:text-3xl font-bold text-foreground">Annual Maintenance (AMC)</h2>
+                            </div>
+
+                            <p className="text-muted-foreground text-sm md:text-lg leading-relaxed mb-8 font-medium">
+                                Keep your business running without interruptions. We offer comprehensive Annual Maintenance Contracts (AMC) for corporate offices, schools, and institutions. Get priority support and regular checkups for your entire IT infrastructure.
+                            </p>
+
+                            <ul className="space-y-3 md:space-y-4 mb-8">
+                                {[
+                                    "Priority On-site Support",
+                                    "Regular Preventive Maintenance",
+                                    "Unlimited Remote Helpdesk",
+                                    "Software & Network Troubleshooting",
+                                    "Data Backup & Security Audits",
+                                    "Standby Device during Major Repairs"
+                                ].map((item, i) => (
+                                    <li key={i} className="flex items-center gap-3 text-muted-foreground text-sm md:text-base font-medium">
+                                        <BadgeCheck className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                                        <span>{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8 group-hover:bg-blue-100/50 transition-colors">
+                                <h4 className="font-bold text-blue-800 mb-2 flex items-center gap-2 text-sm md:text-base">
+                                    <Headset className="w-4 h-4" />
+                                    Why Choose Our AMC?
+                                </h4>
+                                <p className="text-xs md:text-sm text-blue-900/80 font-medium">
+                                    Downtime costs money. With our AMC, you get a dedicated support team that prevents issues before they disrupt your work. We cover laptops, desktops, printers, and networking gear.
+                                </p>
+                            </div>
+
+                            <Link href="/contact" className="block w-full sm:w-auto">
+                                <Button size="lg" className="rounded-xl px-8 bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-900/20 font-bold w-full sm:w-auto transition-transform hover:scale-105">
+                                    Request a Proposal
+                                </Button>
+                            </Link>
+                        </div>
+
+                        {/* Visual Side */}
+                        <div className="relative h-64 md:h-[400px] w-full bg-muted rounded-2xl overflow-hidden border border-border shadow-inner group-hover:scale-[1.02] transition-transform duration-500">
+                            <Image
+                                src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?q=80&w=1000"
+                                alt="IT Annual Maintenance Contract"
+                                fill
+                                className="object-cover"
+                            />
+                            {/* Overlay Gradient */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                            <div className="absolute bottom-4 left-4 text-white font-bold text-lg">
+                                Zero Downtime. Maximum Productivity.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Service 4: Training Program */}
+                <div className="bg-card border border-border rounded-3xl p-6 md:p-12 shadow-2xl overflow-hidden relative group hover:shadow-primary/5 transition-shadow duration-500">
+                    <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+                        <GraduationCap className="w-32 h-32 md:w-64 md:h-64 text-foreground" />
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="p-3 rounded-xl bg-primary/10 border border-primary/20 text-primary">
+                                    <GraduationCap className="w-6 h-6 md:w-8 md:h-8" />
+                                </div>
+                                <h2 className="text-2xl md:text-3xl font-bold text-foreground">Advanced Training</h2>
+                            </div>
+
+                            <p className="text-muted-foreground text-sm md:text-lg leading-relaxed mb-8 font-medium">
+                                Master the art of laptop repair with our professional training programs. From basic troubleshooting to advanced chip-level micro-soldering, learn from industry experts in a hands-on environment.
+                            </p>
+
+                            <div className="space-y-6 mb-8">
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 w-1 bg-primary rounded-full" />
+                                    <div>
+                                        <h4 className="font-bold text-foreground text-sm md:text-base">Chip-Level Repairing</h4>
+                                        <p className="text-xs md:text-sm text-muted-foreground">Advanced schematics reading, multi-meter usage, and BGA reballing techniques.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 w-1 bg-primary rounded-full opacity-60" />
+                                    <div>
+                                        <h4 className="font-bold text-foreground text-sm md:text-base">Advance Level Training</h4>
+                                        <p className="text-xs md:text-sm text-muted-foreground">Comprehensive diagnosis for power issues, BIOS programming, and liquid damage recovery.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 w-1 bg-primary rounded-full opacity-30" />
+                                    <div>
+                                        <h4 className="font-bold text-foreground text-sm md:text-base">Laptop Basics & Assembly</h4>
+                                        <p className="text-xs md:text-sm text-muted-foreground">Safe disassembly, component identification, and hardware troubleshooting for beginners.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="bg-muted/50 border border-border rounded-xl p-6 mb-8">
+                                <p className="text-xs md:text-sm text-muted-foreground font-medium">
+                                    <span className="text-primary font-bold">Enrollment:</span> New batches start every month. Limited seats per batch to ensure individual attention.
+                                </p>
+                            </div>
+
+                            <Link href="/contact" className="block w-full sm:w-auto">
+                                <Button size="lg" className="rounded-xl px-8 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 font-bold w-full sm:w-auto transition-transform hover:scale-105">
+                                    Inquire About Batches
+                                </Button>
+                            </Link>
+                        </div>
+
+                        {/* Visual Side */}
+                        <div className="relative h-64 md:h-[400px] w-full bg-muted rounded-2xl overflow-hidden border border-border shadow-inner group-hover:scale-[1.02] transition-transform duration-500">
+                            <Image
+                                src="https://images.unsplash.com/photo-1581092921461-eab62e97a783?q=80&w=1000"
+                                alt="Laptop Repair Training"
+                                fill
+                                className="object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                            <div className="absolute bottom-4 left-4 text-white font-bold text-lg">
+                                Learn from the Best.
+                            </div>
                         </div>
                     </div>
                 </div>

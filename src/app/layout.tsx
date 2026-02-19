@@ -13,8 +13,30 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Laptop Accessories Nepal",
-  description: "Premium tech accessories for your workspace.",
+  metadataBase: new URL('https://laptopaccessoriesnepal.com'), // Replace with actual domain
+  title: {
+    default: "Laptop Accessories Nepal | Premium Tech Gear",
+    template: "%s | Laptop Accessories Nepal"
+  },
+  description: "Your destination for premium laptop accessories, mechanical keyboards, and expert repair in Kathmandu. Official distributors for Keychron, Logitech, and more.",
+  keywords: ["Laptop Accessories", "Mechanical Keyboards", "Nepal", "Tech Gear", "Repair Services", "Keychron Nepal"],
+  openGraph: {
+    title: "Laptop Accessories Nepal",
+    description: "Premium tech accessories for your workspace in Kathmandu.",
+    url: 'https://laptopaccessoriesnepal.com',
+    siteName: 'Laptop Accessories Nepal',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Laptop Accessories Nepal",
+    description: "Premium tech accessories for your workspace.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  }
 };
 
 export default function RootLayout({

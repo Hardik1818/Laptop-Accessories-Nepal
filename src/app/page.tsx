@@ -23,10 +23,10 @@ export default async function Home() {
     .limit(4);
 
   return (
-    <div className="min-h-screen pb-20 bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <HeroBanner />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10 pt-8 pb-12 md:pt-16 space-y-20 md:space-y-32">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 pt-8 pb-0 md:pt-16 space-y-20 md:space-y-32">
 
         {/* Trending Section */}
         <section className="animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">

@@ -2,19 +2,72 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Play, Info, Plus, ChevronRight, Loader2 } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSettings } from "@/context/SettingsContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function HeroBanner() {
     const { settings, loading } = useSettings();
+    const [[page, direction], setPage] = useState([0, 0]);
 
-    // Default values if not set
     const title = settings?.hero_title || "LAPTOP ACCESSORIES NEPAL";
     const subtitle = settings?.hero_subtitle || "Elevate your workspace with the capital's premium selection of professional gear. Original batteries, keyboards, and ergonomic essentials.";
-    const image = settings?.hero_banner || "/services/repair_center.jpg";
+
+    // Dynamic Carousel Images from Settings
+    const HERO_IMAGES = [
+        settings?.hero_banner,
+        settings?.hero_banner_2,
+        settings?.hero_banner_3,
+    ].filter(Boolean) as string[];
+
+    // Fallback if no images are uploaded
+    const displayImages = HERO_IMAGES.length > 0 ? HERO_IMAGES : ["/services/repair_center.jpg"];
+
+    const currentImageIndex = Math.abs(page % displayImages.length);
+
+    useEffect(() => {
+        if (displayImages.length <= 1) return;
+
+        const timer = setInterval(() => {
+            setPage([page + 1, 1]);
+        }, 5000);
+        return () => clearInterval(timer);
+    }, [page, displayImages.length]);
+
+    const nextImage = useCallback(() => {
+        setPage([page + 1, 1]);
+    }, [page]);
+
+    const prevImage = useCallback(() => {
+        setPage([page - 1, -1]);
+    }, [page]);
+
+    const paginate = (newIndex: number) => {
+        const newDir = newIndex > currentImageIndex ? 1 : -1;
+        setPage([newIndex, newDir]);
+    };
+
+    const variants = {
+        enter: (direction: number) => ({
+            x: direction > 0 ? "100%" : "-100%",
+            opacity: 0,
+            scale: 1.1
+        }),
+        center: {
+            zIndex: 1,
+            x: 0,
+            opacity: 1,
+            scale: 1
+        },
+        exit: (direction: number) => ({
+            zIndex: 0,
+            x: direction < 0 ? "100%" : "-100%",
+            opacity: 0,
+            scale: 0.9
+        })
+    };
 
     const renderTitle = (text: string) => {
         if (text.includes("LAPTOP ACCESSORIES NEPAL")) {
@@ -31,8 +84,72 @@ export function HeroBanner() {
         return text;
     };
 
-    if (loading) return <div className="h-[90vh] w-full bg-slate-950 animate-pulse" />;
+    const CarouselWidget = () => (
+        <div className="relative w-full group/carousel">
+            {/* Glow Behind Carousel */}
+            <div className="absolute -inset-4 md:-inset-10 bg-gradient-to-tr from-primary/20 to-accent/20 rounded-[2.5rem] blur-3xl opacity-40 animate-pulse" />
 
+            <div className="relative rounded-3xl md:rounded-[2.5rem] overflow-hidden border border-border bg-card shadow-2xl ring-1 ring-border aspect-[1.2/1] sm:aspect-[16/10] lg:aspect-[16/11]">
+                <AnimatePresence initial={false} custom={direction}>
+                    <motion.div
+                        key={page}
+                        custom={direction}
+                        variants={variants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={{
+                            x: { type: "spring", stiffness: 300, damping: 30 },
+                            opacity: { duration: 0.4 }
+                        }}
+                        className="absolute inset-0 w-full h-full"
+                    >
+                        <Image
+                            src={displayImages[currentImageIndex]}
+                            alt="Laptop Accessories Nepal Showcase"
+                            fill
+                            className="object-cover"
+                            priority
+                        />
+                    </motion.div>
+                </AnimatePresence>
+
+                {/* Navigation Arrows - Premium Design */}
+                <div className="absolute inset-0 flex items-center justify-between px-3 md:px-6 pointer-events-none z-20">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={(e) => { e.preventDefault(); prevImage(); }}
+                        className="h-10 w-10 md:h-14 md:w-14 rounded-full bg-black/20 hover:bg-primary text-white backdrop-blur-xl border border-white/20 hover:border-primary shadow-2xl transition-all duration-300 pointer-events-auto active:scale-90 opacity-100 lg:opacity-0 lg:group-hover/carousel:opacity-100"
+                    >
+                        <ChevronLeft className="h-6 w-6 md:h-8 md:w-8" />
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={(e) => { e.preventDefault(); nextImage(); }}
+                        className="h-10 w-10 md:h-14 md:w-14 rounded-full bg-black/20 hover:bg-primary text-white backdrop-blur-xl border border-white/20 hover:border-primary shadow-2xl transition-all duration-300 pointer-events-auto active:scale-90 opacity-100 lg:opacity-0 lg:group-hover/carousel:opacity-100"
+                    >
+                        <ChevronRight className="h-6 w-6 md:h-8 md:w-8" />
+                    </Button>
+                </div>
+
+                {/* Carousel Indicators */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-30">
+                    {displayImages.map((_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => paginate(i)}
+                            className={`h-2 transition-all duration-500 rounded-full border border-white/20 ${i === currentImageIndex ? "w-10 bg-primary ring-2 ring-primary/20" : "w-2.5 bg-white/40 hover:bg-white/60"
+                                }`}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+
+    if (loading) return <div className="h-[90vh] w-full bg-slate-950 animate-pulse" />;
 
     return (
         <div className="relative w-full pt-12 pb-20 md:py-32 overflow-hidden bg-background">
@@ -44,26 +161,41 @@ export function HeroBanner() {
             <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-accent/20 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="container relative z-10 mx-auto px-4 md:px-6">
-                <div className="grid gap-10 lg:grid-cols-2 items-center">
+                <div className="grid gap-12 lg:grid-cols-12 items-center">
 
-                    {/* Left Column: Text Content */}
-                    <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8">
-                        <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs md:text-sm text-primary backdrop-blur-xl animate-in fade-in slide-in-from-bottom-4 duration-700">
-                            <span className="flex h-2 w-2 rounded-full bg-primary mr-2.5 animate-pulse"></span>
-                            Restocked & Ready
+                    {/* Left Column: Context & Mobile Carousel Integration */}
+                    <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8">
+
+
+                        <motion.h1
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter text-foreground leading-[0.9] uppercase"
+                        >
+                            {renderTitle(title)}
+                        </motion.h1>
+
+                        {/* MOBILE CAROUSEL: PLACED BETWEEN TITLE AND PARAGRAPH */}
+                        <div className="block lg:hidden w-full py-4">
+                            <CarouselWidget />
                         </div>
 
-                        <div className="space-y-4">
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter text-foreground leading-[0.9] uppercase animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
-                                {renderTitle(title)}
-                            </h1>
+                        <motion.p
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                            className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed"
+                        >
+                            {subtitle}
+                        </motion.p>
 
-                            <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 px-4 md:px-0">
-                                {subtitle}
-                            </p>
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+                        >
                             <Link href="/shop" className="w-full sm:w-auto">
                                 <Button size="lg" className="w-full h-14 px-10 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 font-black tracking-tight shadow-xl transition-all hover:scale-105 active:scale-95 text-base shadow-primary/20 group">
                                     SHOP NOW <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -74,9 +206,14 @@ export function HeroBanner() {
                                     DISCOVER MORE
                                 </Button>
                             </Link>
-                        </div>
+                        </motion.div>
 
-                        <div className="pt-6 flex flex-col sm:flex-row items-center gap-4 text-xs md:text-sm text-slate-500 animate-in fade-in duration-1000 delay-500">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="pt-6 flex flex-col sm:flex-row items-center gap-4 text-xs md:text-sm text-slate-500"
+                        >
                             <div className="flex -space-x-2">
                                 {[1, 2, 3, 4].map(i => (
                                     <div key={i} className="h-9 w-9 rounded-full border-2 border-slate-950 bg-slate-800 flex items-center justify-center text-xs text-white">
@@ -85,28 +222,12 @@ export function HeroBanner() {
                                 ))}
                             </div>
                             <p>Join <span className="text-slate-300 font-bold">5,000+</span> satisfied customers in Nepal</p>
-                        </div>
+                        </motion.div>
                     </div>
 
-                    {/* Right Column: Visual Showcase */}
-                    <div className="relative mx-auto w-full max-w-[450px] lg:max-w-none px-4 md:px-0">
-                        {/* Glow Behind Image */}
-                        <div className="absolute -inset-4 bg-gradient-to-tr from-primary/30 to-accent/30 rounded-[2.5rem] blur-2xl opacity-40 animate-pulse" />
-
-                        <div className="relative rounded-[2.5rem] overflow-hidden border border-border bg-card shadow-2xl ring-1 ring-border aspect-[4/5] sm:aspect-[16/11]">
-                            <Image
-                                src={image}
-                                alt="Laptop Accessories Nepal Store"
-                                fill
-                                className="object-cover hover:scale-105 transition-transform duration-1000 ease-out"
-                                priority
-                            />
-                        </div>
-
-                        {/* Mobile Floating Indicator */}
-                        <div className="sm:hidden absolute -bottom-2 -right-2 bg-primary p-3 rounded-2xl shadow-xl text-primary-foreground font-bold text-xs ring-4 ring-slate-950 animate-bounce">
-                            Top Rated ⭐️
-                        </div>
+                    {/* Right Column: Visual Showcase (Carousel) - DESKTOP ONLY */}
+                    <div className="hidden lg:block lg:col-span-7 relative w-full h-full min-h-[500px]">
+                        <CarouselWidget />
                     </div>
 
                 </div>

@@ -10,14 +10,14 @@ export function WhatsAppButton() {
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-                "fixed bottom-20 left-4 md:bottom-6 md:left-6 z-50",
-                "flex items-center justify-center p-3 rounded-full shadow-[0_0_20px_rgba(37,211,102,0.4)]",
-                "bg-[#25D366] hover:bg-[#128C7E] text-white transition-all duration-300 hover:scale-110",
-                "group border-2 border-[#25D366]/20"
+                "fixed bottom-24 left-4 lg:bottom-6 lg:left-6 z-50",
+                "flex items-center justify-center h-12 w-12 md:h-16 md:w-16 rounded-full shadow-lg shadow-primary/20",
+                "bg-[#25D366] hover:bg-[#128C7E] text-white transition-all duration-500 hover:scale-110",
+                "group border-2 border-white/20 overflow-hidden"
             )}
             aria-label="Contact on WhatsApp"
         >
-            <div className="absolute inset-0 rounded-full bg-[#25D366]/20 animate-ping opacity-75 group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-white/10 group-hover:bg-white/20 transition-colors" />
 
             {/* WhatsApp SVG Icon */}
             <svg

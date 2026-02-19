@@ -39,6 +39,8 @@ export default function AdminProductsPage() {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
+    const [categoryMap, setCategoryMap] = useState<Record<string, string>>({});
+
     useEffect(() => {
         fetchProducts();
         fetchCategories();
@@ -51,6 +53,13 @@ export default function AdminProductsPage() {
             .order('display_order', { ascending: true });
 
         if (data) {
+            // Create map for easy lookup
+            const mapping: Record<string, string> = {};
+            data.forEach((c: any) => {
+                mapping[c.id] = c.name;
+            });
+            setCategoryMap(mapping);
+
             // Organize into tree: Parents -> Subcategories
             const parents = data.filter((c: any) => !c.parent_id);
             const tree = parents.map((p: any) => ({
@@ -307,21 +316,27 @@ export default function AdminProductsPage() {
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Category</label>
                                             <Select
-                                                value={formData.category}
-                                                onValueChange={(val) => setFormData({ ...formData, category: val })}
+                                                value={Object.keys(categoryMap).find(id => categoryMap[id] === formData.category) || formData.category}
+                                                onValueChange={(val) => setFormData({ ...formData, category: categoryMap[val] || val })}
                                             >
                                                 <SelectTrigger className="bg-slate-950 border-slate-800 text-white h-11 font-medium italic">
                                                     <SelectValue placeholder="Choose Category" />
                                                 </SelectTrigger>
-                                                <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px]">
+                                                <SelectContent className="bg-slate-900 border-slate-800 max-h-[300px] text-white">
                                                     {categories.map((parent) => (
                                                         <SelectGroup key={parent.id}>
-                                                            <SelectLabel className="text-slate-500 pl-2 py-1.5 text-[10px] uppercase tracking-widest font-black bg-slate-950/50 block w-full">{parent.name}</SelectLabel>
-                                                            {parent.children?.map((child: any) => (
-                                                                <SelectItem key={child.id} value={child.name} className="pl-4 text-slate-300 focus:bg-blue-600 focus:text-white cursor-pointer py-2">
-                                                                    {child.name}
+                                                            <SelectLabel className="text-blue-400 pl-2 py-1.5 text-[10px] uppercase tracking-widest font-black bg-slate-950/50 block w-full">{parent.name}</SelectLabel>
+                                                            {parent.children && parent.children.length > 0 ? (
+                                                                parent.children.map((child: any) => (
+                                                                    <SelectItem key={child.id} value={child.id} className="pl-4 text-slate-200 focus:bg-blue-600 focus:text-white cursor-pointer py-2">
+                                                                        {child.name}
+                                                                    </SelectItem>
+                                                                ))
+                                                            ) : (
+                                                                <SelectItem value={parent.id} className="pl-4 text-slate-200 focus:bg-blue-600 focus:text-white cursor-pointer py-2">
+                                                                    Select {parent.name}
                                                                 </SelectItem>
-                                                            ))}
+                                                            )}
                                                         </SelectGroup>
                                                     ))}
                                                 </SelectContent>

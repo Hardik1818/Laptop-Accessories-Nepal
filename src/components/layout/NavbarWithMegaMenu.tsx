@@ -19,10 +19,17 @@ interface NavbarWithMegaMenuProps {
 }
 
 export function NavbarWithMegaMenu({ categories }: NavbarWithMegaMenuProps) {
-    const [searchQuery, setSearchQuery] = useState("");
-    const router = useRouter();
     const pathname = usePathname();
     const isAdminRoute = pathname.startsWith("/adminlogin");
+
+    if (isAdminRoute) return null;
+
+    return <NavbarContent categories={categories} />;
+}
+
+function NavbarContent({ categories }: NavbarWithMegaMenuProps) {
+    const [searchQuery, setSearchQuery] = useState("");
+    const router = useRouter();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
@@ -39,15 +46,12 @@ export function NavbarWithMegaMenu({ categories }: NavbarWithMegaMenuProps) {
     };
 
     useEffect(() => {
-        if (isAdminRoute) return; // Don't run scroll logic on admin routes
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
         };
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, [isAdminRoute]);
-
-    if (isAdminRoute) return null;
+    }, []);
 
     const storeName = settings.store_name || "Laptop Accessories Nepal";
     const nameParts = storeName.split(' ');
@@ -117,6 +121,10 @@ export function NavbarWithMegaMenu({ categories }: NavbarWithMegaMenuProps) {
                                 </Link>
                                 <Link href="/services" className="text-foreground/80 hover:text-primary transition-colors relative group py-2 font-medium">
                                     Services
+                                    <span className="absolute -bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+                                </Link>
+                                <Link href="/blog" className="text-foreground/80 hover:text-primary transition-colors relative group py-2 font-medium">
+                                    Blog
                                     <span className="absolute -bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
                                 </Link>
                             </div>
@@ -310,6 +318,9 @@ export function NavbarWithMegaMenu({ categories }: NavbarWithMegaMenuProps) {
                                     </Link>
                                     <Link href="/services" onClick={() => setIsMenuOpen(false)} className="block p-3 rounded-lg hover:bg-muted/10 transition-colors text-foreground font-semibold">
                                         Services
+                                    </Link>
+                                    <Link href="/blog" onClick={() => setIsMenuOpen(false)} className="block p-3 rounded-lg hover:bg-muted/10 transition-colors text-foreground font-semibold">
+                                        Tech Blog
                                     </Link>
                                 </div>
                             </div>
