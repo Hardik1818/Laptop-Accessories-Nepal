@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Save, Globe, Phone, Mail, MapPin, ShieldCheck, RefreshCcw, Facebook, Instagram, Twitter, Youtube, QrCode, Plus, X, Image as ImageIcon } from "lucide-react";
+import { Loader2, Save, Globe, Phone, Mail, MapPin, ShieldCheck, RefreshCcw, Facebook, Instagram, Twitter, Youtube, QrCode, Plus, X, Image as ImageIcon, Pin, Linkedin, Video } from "lucide-react";
 import Image from "next/image";
 
 export default function AdminSettingsPage() {
@@ -335,6 +335,27 @@ export default function AdminSettingsPage() {
                                     <div className="relative">
                                         <Youtube className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-red-600" />
                                         <Input className="bg-slate-950 border-slate-800 h-11 pl-10" value={settings.youtube_url || ""} onChange={(e) => handleInputChange('youtube_url', e.target.value)} />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">Pinterest Board</label>
+                                    <div className="relative">
+                                        <Pin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-red-600" />
+                                        <Input className="bg-slate-950 border-slate-800 h-11 pl-10" value={settings.pinterest_url || ""} onChange={(e) => handleInputChange('pinterest_url', e.target.value)} />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">LinkedIn Profile</label>
+                                    <div className="relative">
+                                        <Linkedin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-700" />
+                                        <Input className="bg-slate-950 border-slate-800 h-11 pl-10" value={settings.linkedin_url || ""} onChange={(e) => handleInputChange('linkedin_url', e.target.value)} />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase text-slate-500 tracking-widest ml-1">TikTok Feed</label>
+                                    <div className="relative">
+                                        <Video className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-pink-500" />
+                                        <Input className="bg-slate-950 border-slate-800 h-11 pl-10" value={settings.tiktok_url || ""} onChange={(e) => handleInputChange('tiktok_url', e.target.value)} />
                                     </div>
                                 </div>
                             </div>

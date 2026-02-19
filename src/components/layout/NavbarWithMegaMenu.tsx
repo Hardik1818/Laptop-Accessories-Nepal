@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Search, ShoppingCart, Menu, X, Laptop, ChevronDown, Home as HomeIcon, Info, Wrench } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/CartContext";
@@ -34,6 +34,8 @@ function NavbarContent({ categories }: NavbarWithMegaMenuProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const lastScrollY = useRef(0);
     const { cartCount } = useCart();
     const { settings } = useSettings();
 
@@ -47,9 +49,22 @@ function NavbarContent({ categories }: NavbarWithMegaMenuProps) {
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
+            const currentScrollY = window.scrollY;
+
+            // Determine visibility based on scroll direction
+            if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+                // Scrolling down & past threshold -> hide
+                setIsVisible(false);
+            } else {
+                // Scrolling up -> show
+                setIsVisible(true);
+            }
+
+            lastScrollY.current = currentScrollY;
+            setScrolled(currentScrollY > 20);
         };
-        window.addEventListener("scroll", handleScroll);
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
@@ -67,7 +82,8 @@ function NavbarContent({ categories }: NavbarWithMegaMenuProps) {
     return (
         <>
             <nav className={cn(
-                "sticky top-0 z-[200] w-full transition-all duration-300 border-b border-border/40",
+                "fixed top-0 left-0 right-0 z-[200] w-full transition-all duration-300 ease-in-out border-b border-border/40",
+                isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0",
                 scrolled
                     ? "bg-background/80 backdrop-blur-md py-0 shadow-sm support-[backdrop-filter]:bg-background/60"
                     : "bg-transparent border-transparent py-2"

@@ -94,13 +94,13 @@ export function ChatWidget() {
             {/* Support Window */}
             <div
                 className={cn(
-                    "fixed z-[100] transition-all duration-500",
+                    "fixed z-[9999] transition-all duration-500 ease-out",
                     // Mobile: Bottom positioned
-                    "bottom-20 left-4 right-4 lg:bottom-24 lg:left-auto lg:right-6",
+                    "bottom-4 right-4 left-4 lg:bottom-24 lg:left-auto lg:right-6",
                     // Width
                     "w-auto lg:w-[380px]",
-                    // Height
-                    "h-[60vh] lg:h-[600px] max-h-[800px]",
+                    // Height - Responsive constraint to prevent header overlap
+                    "h-[min(600px,70vh)] max-h-[calc(100dvh-100px)]",
                     // Animation
                     isOpen
                         ? "scale-100 opacity-100 translate-y-0"
@@ -111,18 +111,18 @@ export function ChatWidget() {
             >
                 <Card className="border-border shadow-2xl bg-card/95 backdrop-blur-xl overflow-hidden flex flex-col h-full rounded-2xl border border-border/50">
                     {/* Immersive Header */}
-                    <CardHeader className="p-4 bg-primary text-primary-foreground border-b border-primary/10 flex flex-row items-center justify-between space-y-0">
+                    <CardHeader className="p-3 lg:p-4 bg-primary text-primary-foreground border-b border-primary/10 flex flex-row items-center justify-between space-y-0 shrink-0">
                         <div className="flex items-center gap-3">
                             <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
-                                <Bot className="h-6 w-6 text-white" />
+                                <Bot className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
                             </div>
                             <div>
-                                <CardTitle className="text-lg font-bold text-white leading-none">
+                                <CardTitle className="text-base lg:text-lg font-bold text-white leading-none">
                                     LAN Assistant
                                 </CardTitle>
-                                <div className="text-xs font-medium text-white/90 flex items-center gap-1.5 mt-1 opacity-90">
+                                <div className="text-[10px] lg:text-xs font-medium text-white/90 flex items-center gap-1.5 mt-1 opacity-90">
                                     <div className="h-1.5 w-1.5 bg-green-400 rounded-full animate-pulse shadow-[0_0_5px_rgba(255,255,255,0.5)]" />
-                                    Online
+                                    Online Now
                                 </div>
                             </div>
                         </div>
